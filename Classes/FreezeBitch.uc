@@ -1,5 +1,6 @@
 //=============================================================================
 // FreezeBitch
+// this creates an ice statue based on the character model after they are hit and killed by the grey projectile
 //=============================================================================
 class FreezeBitch expands Decoration;
 

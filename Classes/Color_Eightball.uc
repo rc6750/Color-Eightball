@@ -1,6 +1,7 @@
 //=============================================================================
 // Color_Eightball
 // Mutation created by Bog_Wraith (grave@tampabay.rr.com). 
+// Use rc6750@gmail.com - email address above is no longer active
 //=============================================================================
 class Color_Eightball extends TournamentWeapon;
 

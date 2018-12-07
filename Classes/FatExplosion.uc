@@ -1,5 +1,5 @@
 //=============================================================================
-// Fat Explosion message. Received by vic.
+// Fat Explosion message. Received by victim when hit by gold projectile
 //=============================================================================
 
 

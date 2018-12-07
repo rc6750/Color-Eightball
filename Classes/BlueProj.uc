@@ -1,5 +1,6 @@
 //=============================================================================
 // BlueProj.
+// Normal rocket as used in the game, but replaced with a blue projectile "Rainbow.BlueASMDAlt.BlueASMDAlt_a00"
 //=============================================================================
 class BlueProj extends Projectile;
 

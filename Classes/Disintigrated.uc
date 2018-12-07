@@ -1,5 +1,5 @@
 //=============================================================================
-// Disintigrated message. Received by vic.
+// Disintigrated message. Received by victim when hit by Green projectile
 //=============================================================================
 
 

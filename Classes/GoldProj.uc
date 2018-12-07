@@ -1,5 +1,6 @@
 //=============================================================================
 // GoldProj.  FatExplosion, baby!
+// This is the code for the gold projectile which causes the player to expand in size until they explode. yellow/gold projectile
 //=============================================================================
 class GoldProj expands Projectile;
 

@@ -1,5 +1,7 @@
 //=============================================================================
 // GreenProj.
+// Green projectile = disintegrate 
+// Spawns a teleport effect to mimic disintegration effect 
 //=============================================================================
 class GreenProj expands Projectile;
 

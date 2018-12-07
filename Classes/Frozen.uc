@@ -1,5 +1,5 @@
 //=============================================================================
-// Frozen message. Received by vic.
+// Frozen message. Received by victim when hit by grey projectile
 //=============================================================================
 
 
