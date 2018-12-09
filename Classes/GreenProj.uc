@@ -94,7 +94,7 @@ defaultproperties
      MaxSpeed=1600.000000
      Damage=455.000000
      MomentumTransfer=70000
-     MyDamageType=Corroded
+     MyDamageType=RocketDeath
      MiscSound=Sound'UnrealShare.General.Explg02'
      ExplosionDecal=Class'Botpack.EnergyImpact'
      bNetTemporary=False
