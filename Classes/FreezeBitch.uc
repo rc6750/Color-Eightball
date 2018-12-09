@@ -26,7 +26,7 @@ simulated function BeginPlay()
 
 simulated function tick(float DeltaTime){
 	lifetime+=DeltaTime;
-	if(lifetime>=15) takedamage(10,PlayerPawn(Owner),Location,v001);
+	if(lifetime>=15) takedamage(10,PlayerPawn(Owner),Location,v001,'');
 	if (lifetime>(itime+30*frand())){
 		itime=lifetime;
 		if(skin==tex1) skin=tex1;
@@ -37,7 +37,7 @@ simulated function tick(float DeltaTime){
 auto state active
 {
 	function TakeDamage( int NDamage, Pawn instigatedBy, Vector hitlocation, 
-						Vector momentum)
+						Vector momentum, name damageType)
 	{
 		PlaySound (Sound'BreakGlass');
 		skinnedFrag(class'UnrealShare.Fragment1',texture'iceskin', Momentum,0.7,17);
