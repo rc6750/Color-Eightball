@@ -35,11 +35,7 @@ simulated function Timer()
 		}
 	}
 	
-	if ( (Level.bHighDetailMode && !Level.bDropDetail) || (FRand() < 0.5) )
-	{
-		b = Spawn(class'Botpack.ut_SpriteSmokePuff');
-		b.RemoteRole = ROLE_None;
-	}
+	
 }
 
 simulated function PostBeginPlay()
