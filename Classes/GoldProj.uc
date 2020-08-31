@@ -65,7 +65,7 @@ ignores ProcessTouch, HitWall;
 	 			{
 	  				if (Victim.Fatness < 248)
 	  				{
-						Victim.Fatness += 30;
+						Victim.Fatness += 20;
 						Victim.ReceiveLocalizedMessage( class'Rainbow.Tighter' );
 	  				}
 	  				else
@@ -91,7 +91,7 @@ ignores ProcessTouch, HitWall;
 	 		{
 	  			if (Victim.Fatness < 248)
 	  			{
-					Victim.Fatness += 30;
+					Victim.Fatness += 20;
 					Victim.ReceiveLocalizedMessage( class'Rainbow.Tighter' );
 	  			}
 	  			else

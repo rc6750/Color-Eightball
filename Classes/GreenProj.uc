@@ -7,6 +7,10 @@ class GreenProj expands Projectile;
 
 var() Sound ExploSound;
 var int NumExtraRockets;
+var int NumSplash;
+var vector SpawnPoint;
+var bool bOnGround;
+var vector SurfaceNormal;
 
 simulated function PostBeginPlay()
 {
@@ -15,14 +19,56 @@ simulated function PostBeginPlay()
 		LightType = LT_None;
 }
 
+simulated function SetWall(vector HitNormal, Actor Wall)
+{
+	local vector TraceNorm, TraceLoc, Extent;
+	local actor HitActor;
+	local rotator RandRot;
+
+	SurfaceNormal = HitNormal;
+	if ( Level.NetMode != NM_DedicatedServer )
+		spawn(class'BioMark',,,Location, rotator(SurfaceNormal));
+	RandRot = rotator(HitNormal);
+	RandRot.Roll += 32768;
+	SetRotation(RandRot);	
+	if ( Mover(Wall) != None )
+		SetBase(Wall);
+}
+
 auto state Flying
 {
 	function ProcessTouch (Actor Other, vector HitLocation)
 	{
 		if ( (Other != instigator) && !Other.IsA('Projectile')  && !Other.IsA('Effects') )
 			{ 	
-			Disintegrate(HitLocation,Normal(HitLocation-Other.Location),Pawn(Other));
+				Disintegrate(HitLocation,Normal(HitLocation-Other.Location),Pawn(Other));	
 			}
+		if ( Pawn(Other)!=Instigator || bOnGround) 
+		   Global.Timer(); 
+	}
+
+	simulated function HitWall( vector HitNormal, actor Wall )
+	{
+		bHidden = True;
+		SetPhysics(PHYS_None);		
+		MakeNoise(1);	
+		bOnGround = True;
+		NumSplash = 20;
+		PlaySound(ImpactSound);	
+		SetWall(HitNormal, Wall);
+		if ( DrawScale > 1 )
+			NumSplash = int(2 * DrawScale) - 1;
+		SpawnPoint = Location + 5 * HitNormal;
+		DrawScale= FMin(DrawScale, 3.0);
+		if ( NumSplash > 0 )
+		{
+			SpawnSplash();
+			if ( NumSplash > 0 )
+				SpawnSplash();
+		}
+		GoToState('OnSurface');
+	
+		
 	}
 
 	function BeginState()
@@ -31,32 +77,14 @@ auto state Flying
 	}
 }
 
-function Explode(vector HitLocation, vector HitNormal)
-{
-	local UTteleeffect s;
-
-	if ( Role < ROLE_Authority )
-			return;		
-
-	s = spawn(class'Botpack.UTteleeffect',,,HitLocation + HitNormal*16);	
- 	s.RemoteRole = ROLE_SimulatedProxy;	
-
-	Destroy();
-}
-
-
 function Disintegrate(vector HitLocation,vector HitNormal, Pawn Victim)
+  
+    {
 
-
-	{
-		local UTteleeffect s;
-		
-		if ( Role < ROLE_Authority )
+    	if ( Role < ROLE_Authority )
 			return;
 
-		s = spawn(class'Botpack.UTteleeffect',,,HitLocation + HitNormal*16);	
- 		s.RemoteRole = ROLE_SimulatedProxy;
-	
+		
 	if (Instigator != None && Victim != None)
 	{	
 	  if (ClassIsChildOf(Level.Game.class, class'TeamGamePlus'))
@@ -84,8 +112,64 @@ function Disintegrate(vector HitLocation,vector HitNormal, Pawn Victim)
 		Victim.ReceiveLocalizedMessage( class'Rainbow.Disintigrated' );
 	    }
 	   }	
+	    SpawnPoint = HitLocation + 5 * HitNormal;
+	    SpawnTsunami();
 		Destroy();
 	}
+
+function SpawnSplash()
+{
+	local vector Start;
+
+	NumSplash--;
+	Start = SpawnPoint + 4 * VRand(); 
+	Spawn(class'BioSplash',,,Start,Rotator(Start - Location));
+}
+
+function SpawnTsunami()
+{
+	local vector Start;
+	local int splash;
+	local int maxsplash; 
+
+	splash = 0;
+	maxsplash = 150;
+
+	while( splash < maxsplash )
+		{
+   			splash = splash + 1;
+			Start = SpawnPoint + 4 * VRand(); 
+			Spawn(class'BioSplash',,,Start,Rotator(Start - Location));
+   		If(splash >= maxsplash) 
+   		break; 
+		}
+	
+}
+
+
+state OnSurface
+{
+	function Tick(float DeltaTime)
+	{
+		if ( NumSplash > 0 )
+		{
+			SpawnSplash();
+			if ( NumSplash > 0 )
+				SpawnSplash();
+			else
+				Disable('Tick');
+		}
+		else
+			Disable('Tick');
+	}
+
+	function ProcessTouch (Actor Other, vector HitLocation)
+	{
+		if ( Other.IsA('BioSplash') )
+			return;
+		GotoState('Exploding');
+	}
+}
 
 defaultproperties
 {
