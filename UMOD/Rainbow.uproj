@@ -1,0 +1,24 @@
+D:\UnrealTournament
+0.8
+[Group]
+name=Manifest
+System\Rainbow.int
+System\Rainbow.u
+[Requirement]
+product=UnrealTournament
+version=436
+developer=Epic Games, Inc.
+productURL=http://www.unrealtournament.com/
+versionURL=http://unreal.epicgames.com/
+developerURL=http://www.epicgames.com/
+[Product]
+product=Color_Eightball
+version=1
+developer=rc6750
+productURL=https://github.com/rc6750/Color-Eightball
+versionURL=https://github.com/rc6750/Color-Eightball
+developerURL=https://github.com/rc6750/Color-Eightball
+readme=Rainbow\UMOD\readme.txt
+title=Color Eightball Install
+cleanup=True
+archive=Color_Eightball.umod
