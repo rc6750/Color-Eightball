@@ -4,7 +4,7 @@
 //=============================================================================
 class FreezeBitch expands Decoration;
 
-#exec TEXTURE IMPORT NAME=iceskin FILE=Textures\icer2.PCX GROUP="Skins"
+#exec TEXTURE IMPORT NAME=iceskin FILE=Textures\icer1.PCX GROUP="Skins"
 
 var float itime,lifetime;
 var() texture tex1;
@@ -26,7 +26,7 @@ simulated function BeginPlay()
 
 simulated function tick(float DeltaTime){
 	lifetime+=DeltaTime;
-	if(lifetime>=15) takedamage(10,PlayerPawn(Owner),Location,v001,'');
+	if(lifetime>=25) takedamage(10,PlayerPawn(Owner),Location,v001,'');
 	if (lifetime>(itime+30*frand())){
 		itime=lifetime;
 		if(skin==tex1) skin=tex1;

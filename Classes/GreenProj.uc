@@ -1,8 +1,7 @@
 //=============================================================================
 // GreenProj.
 // Green projectile = disintegrate 
-// Spawns a teleport effect to mimic disintegration effect 
-//=============================================================================
+// =============================================================================
 class GreenProj expands Projectile;
 
 var() Sound ExploSound;
@@ -173,13 +172,13 @@ state OnSurface
 
 defaultproperties
 {
-     ExploSound=Sound'UnrealShare.General.SpecialExpl'
+     ExploSound=Sound'UnrealShare.Gibs.Gib4'
      speed=900.000000
      MaxSpeed=1600.000000
      Damage=455.000000
      MomentumTransfer=70000
      MyDamageType=RocketDeath
-     MiscSound=Sound'UnrealShare.General.Explg02'
+     MiscSound=Sound'UnrealShare.Tentacle.splat2tn'
      ExplosionDecal=Class'Botpack.EnergyImpact'
      bNetTemporary=False
      RemoteRole=ROLE_SimulatedProxy

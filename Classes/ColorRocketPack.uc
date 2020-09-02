@@ -14,7 +14,7 @@ defaultproperties
      AmmoAmount=24
      MaxAmmo=48
      UsedInWeaponSlot(5)=1
-     PickupMessage="You picked up a Rainbow Rocket pack."
+     PickupMessage="You picked up a Color Eightball Rocket pack."
      PickupViewMesh=LodMesh'Rainbow.C_RocketPackMesh'
      MaxDesireability=0.300000
      Physics=PHYS_Falling

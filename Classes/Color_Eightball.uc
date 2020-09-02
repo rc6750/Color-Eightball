@@ -110,6 +110,11 @@ class Color_Eightball extends TournamentWeapon;
 #exec TEXTURE IMPORT NAME=BlueASMDAlt_a02 FILE=textures\BlueASMDAlt_a02.PCX GROUP="BlueASMDAlt"
 #exec TEXTURE IMPORT NAME=BlueASMDAlt_a03 FILE=textures\BlueASMDAlt_a03.PCX GROUP="BlueASMDAlt"
 
+#exec TEXTURE IMPORT NAME=PurpleASMDAlt_a00 FILE=textures\PurpleASMDAlt_a00.pcx GROUP="PurpleASMDAlt"
+#exec TEXTURE IMPORT NAME=PurpleASMDAlt_a01 FILE=textures\PurpleASMDAlt_a01.pcx GROUP="PurpleASMDAlt"
+#exec TEXTURE IMPORT NAME=PurpleASMDAlt_a02 FILE=textures\PurpleASMDAlt_a02.pcx GROUP="PurpleASMDAlt"
+#exec TEXTURE IMPORT NAME=PurpleASMDAlt_a03 FILE=textures\PurpleASMDAlt_a03.pcx GROUP="PurpleASMDAlt"
+
 var name LoadAnim[6], RotateAnim[6], FireAnim[6];
 var int RocketsLoaded, ClientRocketsLoaded;
 var bool bFireLoad,bTightWad, bInstantRocket, bAlwaysInstant, bClientDone, bRotated, bPendingLock;
@@ -877,6 +882,7 @@ state FireRockets
 		local RedProj rsp;
 		local GreyProj grsp;
 		local GoldProj gosp;
+		local PurpleProj psp;
 		local ColorSeekingRocket s;
 		local Color_grenade g;
 		local float Angle, RocketRad;
@@ -1167,10 +1173,10 @@ state FireRockets
 				}
 				else 
 				{
-					bsp = Spawn( class'Rainbow.BlueProj',, '', FireLocation,FireRot);
-					bsp.NumExtraRockets = DupRockets;
+					psp = Spawn( class'Rainbow.PurpleProj',, '', FireLocation,FireRot);
+					psp.NumExtraRockets = DupRockets;
 					if ( Angle > 0 )
-						bsp.Velocity *= (0.9 + 0.2 * FRand());	
+						psp.Velocity *= (0.9 + 0.2 * FRand());	
 				}
 			}
 			else 
@@ -1456,8 +1462,8 @@ defaultproperties
      DeathMessage="%o was bitch slapped by %k's %w."
      NameColor=(G=0,B=0)
      InventoryGroup=9
-     PickupMessage="You got the Rainbow Launcher."
-     ItemName="Rainbow Launcher"
+     PickupMessage="You got the Color Eightball Launcher."
+     ItemName="Color Eightball Launcher"
      PlayerViewOffset=(X=2.400000,Y=-1.000000,Z=-2.200000)
      PlayerViewMesh=LodMesh'Rainbow.C_Eightm'
      PlayerViewScale=2.000000

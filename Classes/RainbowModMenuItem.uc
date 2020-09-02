@@ -3,7 +3,7 @@
 //=============================================================================
 class RainbowModMenuItem expands UMenuModMenuItem;
 
-const MenuCaption = "&Rainbow Launcher Setup";
+const MenuCaption = "&Color Eightball Launcher Setup";
 
 function Execute()
 { 
@@ -12,6 +12,6 @@ function Execute()
 
 defaultproperties
 {
-     MenuCaption="&Rainbow Launcher Setup"
-     MenuHelp="Configure the Rainbow Rocket Launcher."
+     MenuCaption="&Color Eightball Launcher Setup"
+     MenuHelp="Configure the Color Eightball Launcher."
 }

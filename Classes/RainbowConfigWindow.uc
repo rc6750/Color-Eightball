@@ -8,7 +8,7 @@ function BeginPlay()
 Super.BeginPlay();
 
 //Set the title of the Framed Window
-WindowTitle = "Rainbow Rocket Launcher Settings";
+WindowTitle = "Color Eightball Launcher Settings";
 
 //The class of the content
 ClientClass = class'RainbowClientWindow';

@@ -1,5 +1,5 @@
 //=============================================================================
-// Rainbow Launcher Arena.
+// Color Eightball Launcher Arena.
 // replaces all weapons and ammo with Rainbow Launchers and ammo
 // well...except for the translocator because i like it.
 //=============================================================================
