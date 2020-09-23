@@ -1,0 +1,4 @@
+[Public]
+Object=(Name=Rainbow.RainbowModMenuItem,Class=Class, MetaClass=UMenu.UMenuModMenuItem,Description="Color Eightball Config, Configure Color Eightball")
+Object=(Name=Rainbow.RainbowRocket,Class=Class,MetaClass=Engine.Mutator,Description="Color Eightball")
+Object=(Name=Rainbow.RainbowArena,Class=Class,MetaClass=Engine.Mutator,Description="Color Eightball Arena")
