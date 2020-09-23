@@ -15,7 +15,6 @@ replication
 
 simulated function Timer()
 {
-	local ut_SpriteSmokePuff b;
 	local vector SeekingDir;
 	local float MagnitudeVel;
 

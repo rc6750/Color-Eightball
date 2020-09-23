@@ -20,8 +20,6 @@ simulated function PostBeginPlay()
 
 simulated function SetWall(vector HitNormal, Actor Wall)
 {
-	local vector TraceNorm, TraceLoc, Extent;
-	local actor HitActor;
 	local rotator RandRot;
 
 	SurfaceNormal = HitNormal;

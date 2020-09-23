@@ -19,7 +19,6 @@ var int NumExtraGrenades;
 simulated function PostBeginPlay()
 {
 	local vector X,Y,Z;
-	local rotator RandRot;
 
 	Super.PostBeginPlay();
 	if ( Level.NetMode != NM_DedicatedServer )

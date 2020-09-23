@@ -3,8 +3,6 @@
 //=============================================================================
 class RainbowModMenuItem expands UMenuModMenuItem;
 
-const MenuCaption = "&Color Eightball Launcher Setup";
-
 function Execute()
 { 
 	MenuItem.Owner.Root.CreateWindow(class'RainbowConfigWindow',10,10,150,100);
