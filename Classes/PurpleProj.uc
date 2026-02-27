@@ -45,7 +45,7 @@ defaultproperties
      speed=1000.000000
      Damage=1000.000000
      MomentumTransfer=70000
-     MyDamageType=RedeemerDeath
+     MyDamageType=RainbowDamage
      ImpactSound=Sound'UnrealShare.General.Expla02'
      ExplosionDecal=Class'Botpack.NuclearMark'
      bNetTemporary=False

@@ -30,7 +30,7 @@ auto state Flying
 
 function BlowUp(vector HitLocation)
 	{
-		HurtRadius(Damage,220.0, MyDamageType, MomentumTransfer, HitLocation );
+		HurtRadius(Damage,220.0, 'RainbowDamage', MomentumTransfer, HitLocation );
 		MakeNoise(1.0);
 	}
 
@@ -55,7 +55,7 @@ defaultproperties
      speed=1000.000000
      Damage=55.000000
      MomentumTransfer=70000
-     MyDamageType=RocketDeath
+     MyDamageType=RainbowDamage
      ImpactSound=Sound'UnrealShare.General.Expla02'
      ExplosionDecal=Class'Botpack.EnergyImpact'
      bNetTemporary=False

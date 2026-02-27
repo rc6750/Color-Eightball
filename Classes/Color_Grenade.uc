@@ -118,7 +118,7 @@ simulated function HitWall( vector HitNormal, actor Wall )
 ///////////////////////////////////////////////////////
 function BlowUp(vector HitLocation)
 {
-	HurtRadius(damage, 200, MyDamageType, MomentumTransfer, HitLocation);
+	HurtRadius(damage, 200, 'RainbowDamage', MomentumTransfer, HitLocation);
 	MakeNoise(1.0);
 }
 
@@ -142,7 +142,7 @@ defaultproperties
      MaxSpeed=1000.000000
      Damage=80.000000
      MomentumTransfer=50000
-     MyDamageType=GrenadeDeath
+     MyDamageType=RainbowDamage
      ImpactSound=Sound'UnrealShare.Eightball.GrenadeFloor'
      ExplosionDecal=Class'Botpack.BlastMark'
      Physics=PHYS_Falling

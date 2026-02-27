@@ -128,7 +128,7 @@ defaultproperties
      MaxSpeed=1600.000000
      Damage=75.000000
      MomentumTransfer=70000
-     MyDamageType=RocketDeath
+     MyDamageType=RainbowDamage
      ImpactSound=Sound'UnrealShare.General.BreakGlass'
      ExplosionDecal=Class'Botpack.EnergyImpact'
      bNetTemporary=False

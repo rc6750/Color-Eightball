@@ -36,9 +36,14 @@ auto state Flying
 {
 	function ProcessTouch (Actor Other, vector HitLocation)
 	{
+		local vector HN;
+		HN = HitLocation - Other.Location;
+			if ( VSize(HN) < 1 )
+    			{HN = vector(Rotation);}
+
 		if ( (Other != instigator) && !Other.IsA('Projectile')  && !Other.IsA('Effects') )
 			{ 	
-				Disintegrate(HitLocation,Normal(HitLocation-Other.Location),Pawn(Other));	
+				Disintegrate(HitLocation, Normal(HN), Pawn(Other));	
 			}
 		if ( Pawn(Other)!=Instigator || bOnGround) 
 		   Global.Timer(); 
@@ -143,6 +148,21 @@ function SpawnTsunami()
 	
 }
 
+state Exploding
+{
+    function BeginState()
+    {
+        if ( SpawnPoint == vect(0,0,0) )
+            SpawnPoint = Location;
+
+        SpawnTsunami();
+
+        if (ExploSound != None)
+            PlaySound(ExploSound);
+
+        Destroy();
+    }
+}
 
 state OnSurface
 {
@@ -175,7 +195,7 @@ defaultproperties
      MaxSpeed=1600.000000
      Damage=455.000000
      MomentumTransfer=70000
-     MyDamageType=RocketDeath
+     MyDamageType=RainbowDamage
      MiscSound=Sound'UnrealShare.Tentacle.splat2tn'
      ExplosionDecal=Class'Botpack.EnergyImpact'
      bNetTemporary=False

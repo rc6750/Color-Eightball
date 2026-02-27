@@ -34,8 +34,8 @@ function Explode(vector HitLocation, vector HitNormal)
 		if ( Role < ROLE_Authority )
 			return;
 
-		HurtRadius(Damage,300.0, MyDamageType, MomentumTransfer, HitLocation );	 		 		
- 		spawn(class'Botpack.ShockWave',,,HitLocation+ HitNormal*16);	
+		HurtRadius(Damage,300.0, 'RainbowDamage', MomentumTransfer, HitLocation );	 		 		
+ 		spawn(class'RainbowShockWave',,,HitLocation+ HitNormal*16);	
 		RemoteRole = ROLE_SimulatedProxy;	 		 		
  		Destroy();
 	}
@@ -46,7 +46,7 @@ defaultproperties
      speed=1000.000000
      Damage=1000.000000
      MomentumTransfer=70000
-     MyDamageType=RedeemerDeath
+     MyDamageType=RainbowDamage
      ImpactSound=Sound'UnrealShare.General.Expla02'
      ExplosionDecal=Class'Botpack.NuclearMark'
      bNetTemporary=False
