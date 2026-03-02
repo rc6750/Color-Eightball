@@ -115,6 +115,25 @@ class Color_Eightball extends TournamentWeapon;
 #exec TEXTURE IMPORT NAME=PurpleASMDAlt_a02 FILE=textures\PurpleASMDAlt_a02.pcx GROUP="PurpleASMDAlt"
 #exec TEXTURE IMPORT NAME=PurpleASMDAlt_a03 FILE=textures\PurpleASMDAlt_a03.pcx GROUP="PurpleASMDAlt"
 
+#exec TEXTURE IMPORT NAME=LavaASMDAlt_a00 FILE=textures\s_Exp001.PCX GROUP="LavaASMDAlt"
+#exec TEXTURE IMPORT NAME=LavaASMDAlt_a01 FILE=textures\s_Exp002.PCX GROUP="LavaASMDAlt"
+#exec TEXTURE IMPORT NAME=LavaASMDAlt_a02 FILE=textures\s_Exp003.PCX GROUP="LavaASMDAlt"
+#exec TEXTURE IMPORT NAME=LavaASMDAlt_a03 FILE=textures\s_Exp004.PCX GROUP="LavaASMDAlt"
+#exec TEXTURE IMPORT NAME=LavaASMDAlt_a04 FILE=textures\s_Exp005.PCX GROUP="LavaASMDAlt"
+#exec TEXTURE IMPORT NAME=LavaASMDAlt_a05 FILE=textures\s_Exp006.PCX GROUP="LavaASMDAlt"
+#exec TEXTURE IMPORT NAME=LavaASMDAlt_a06 FILE=textures\s_Exp007.PCX GROUP="LavaASMDAlt"
+#exec TEXTURE IMPORT NAME=LavaASMDAlt_a07 FILE=textures\s_Exp008.PCX GROUP="LavaASMDAlt"
+#exec TEXTURE IMPORT NAME=LavaASMDAlt_a08 FILE=textures\s_Exp009.PCX GROUP="LavaASMDAlt"
+#exec TEXTURE IMPORT NAME=LavaASMDAlt_a09 FILE=textures\s_Exp010.PCX GROUP="LavaASMDAlt"
+#exec TEXTURE IMPORT NAME=LavaASMDAlt_a10 FILE=textures\s_Exp011.PCX GROUP="LavaASMDAlt"
+#exec TEXTURE IMPORT NAME=LavaASMDAlt_a11 FILE=textures\s_Exp012.PCX GROUP="LavaASMDAlt"
+#exec TEXTURE IMPORT NAME=LavaASMDAlt_a12 FILE=textures\s_Exp013.PCX GROUP="LavaASMDAlt"
+#exec TEXTURE IMPORT NAME=LavaASMDAlt_a13 FILE=textures\s_Exp014.PCX GROUP="LavaASMDAlt"
+#exec TEXTURE IMPORT NAME=LavaASMDAlt_a14 FILE=textures\s_Exp015.PCX GROUP="LavaASMDAlt"
+#exec TEXTURE IMPORT NAME=LavaASMDAlt_a15 FILE=textures\s_Exp016.PCX GROUP="LavaASMDAlt"
+
+
+
 var name LoadAnim[6], RotateAnim[6], FireAnim[6];
 var int RocketsLoaded, ClientRocketsLoaded;
 var bool bFireLoad,bTightWad, bInstantRocket, bAlwaysInstant, bClientDone, bRotated, bPendingLock;
@@ -883,6 +902,7 @@ state FireRockets
 		local GreyProj grsp;
 		local GoldProj gosp;
 		local PurpleProj psp;
+		local LavaProj lsp;
 		local ColorSeekingRocket s;
 		local Color_grenade g;
 		local float Angle, RocketRad;
@@ -1223,8 +1243,8 @@ state FireRockets
 				}
 				else 
 				{
-					gsp = Spawn( class'Rainbow.GreenProj',, '', FireLocation,FireRot);
-					gsp.NumExtraRockets = DupRockets;
+					lsp = Spawn( class'Rainbow.LavaProj',, '', FireLocation,FireRot);
+					lsp.NumExtraRockets = DupRockets;
 					if ( Angle > 0 )
 						gsp.Velocity *= (0.9 + 0.2 * FRand());	
 				}

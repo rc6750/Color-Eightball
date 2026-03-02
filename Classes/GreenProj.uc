@@ -207,7 +207,7 @@ defaultproperties
      DrawScale=0.400000
      bUnlit=True
      CollisionRadius=15.000000
-     CollisionHeight=15.000000
+     CollisionHeight=8.000000
      bProjTarget=True
      LightType=LT_Steady
      LightEffect=LE_NonIncidence

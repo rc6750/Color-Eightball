@@ -66,8 +66,8 @@ defaultproperties
      Texture=Texture'Rainbow.BlueASMDAlt.BlueASMDAlt_a00'
      DrawScale=0.400000
      bUnlit=True
-     CollisionRadius=12.000000
-     CollisionHeight=12.000000
+     CollisionRadius=15.000000
+     CollisionHeight=8.000000
      bProjTarget=True
      LightType=LT_Steady
      LightEffect=LE_NonIncidence
