@@ -5,6 +5,24 @@ class LavaSplash extends BioSplash;
 
 #exec TEXTURE IMPORT NAME=Jlava FILE=Textures\Jlava.pcx GROUP="Lava" MIPS=OFF FLAGS=2
 
+simulated function PostBeginPlay()
+{
+    Super.PostBeginPlay();
+
+    // Force lava appearance on mesh too
+    Texture = Texture'Rainbow.Lava.Jlava';
+    Skin    = Texture'Rainbow.Lava.Jlava';
+    MultiSkins[0] = Texture'Rainbow.Lava.Jlava';
+
+    // Force lava light (orange/red)
+    LightType       = LT_Steady;
+    LightEffect     = LE_NonIncidence;
+    LightHue        = 16;     // red/orange range
+    LightSaturation = 255;
+    LightBrightness = 120;
+    LightRadius     = 3;
+}
+
 function Timer()
 {
 	local LavaPuff f;
@@ -42,4 +60,13 @@ defaultproperties
 	LifeSpan=2.000000
 	Texture=Texture'Rainbow.Lava.Jlava'
 	MyDamageType=Rainbow
+	Skin=Texture'Rainbow.Lava.Jlava'
+    MultiSkins(0)=Texture'Rainbow.Lava.Jlava'
+
+    LightType=LT_Steady
+    LightEffect=LE_NonIncidence
+    LightBrightness=120
+    LightHue=16
+    LightSaturation=255
+    LightRadius=3
 }
