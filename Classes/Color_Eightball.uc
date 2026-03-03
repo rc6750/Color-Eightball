@@ -142,7 +142,7 @@ var Actor LockedTarget, NewTarget, OldTarget;
 var() globalconfig bool bRedeemer;
 
 
-Replication
+replication
 {
 	reliable if ( bNetOwner && (Role == ROLE_Authority) )
 		bInstantRocket;
@@ -962,6 +962,7 @@ state FireRockets
 		if ( bRedeemer ) i = rand(9);	
 		if ( !bRedeemer ) i = rand(8);
 		//log (i);	
+		i = 5;
 		
 		switch(i)
 		{

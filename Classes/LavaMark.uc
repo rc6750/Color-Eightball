@@ -18,6 +18,7 @@ simulated function BeginPlay()
 defaultproperties
 {
      MultiDecalLevel=2
+     Style=STY_Modulated
      Texture=Texture'Rainbow.Lava.lavasplat'
      DrawScale=0.650000
 }

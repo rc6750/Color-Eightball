@@ -7,6 +7,21 @@ class LavaPuff expands UT_GreenGelPuff;
 #exec TEXTURE IMPORT NAME=lava2r_a00 FILE=Textures\lava2r_a00.pcx GROUP="Lava" MIPS=OFF FLAGS=2
 #exec TEXTURE IMPORT NAME=lava3r_a00 FILE=Textures\lava3r_a00.pcx GROUP="Lava" MIPS=OFF FLAGS=2
 
+simulated function PostBeginPlay()
+{
+    Super.PostBeginPlay();
+
+    // Force lava sprites AFTER parent init (prevents random green resets)
+    SSprites[0] = Texture'Rainbow.Lava.lava1r_a00';
+    SSprites[1] = Texture'Rainbow.Lava.lava2r_a00';
+    SSprites[2] = Texture'Rainbow.Lava.lava3r_a00';
+    SSprites[3] = None;
+
+    Texture = SSprites[Rand(3)];
+    Skin = Texture;
+    MultiSkins[0] = Texture;
+}
+
 simulated function Timer()
 {
 	Local LavaBlob GB;
@@ -20,7 +35,7 @@ simulated function Timer()
 			GB = Spawn(class'LavaBlob',,,Location+SurfaceNormal*(FRand()*8-4));
 			if (GB != None)
 			{
-				GB.SetUp(SurfaceNormal);
+				GB.Setup(SurfaceNormal);
 				GB.RemoteRole = ROLE_None;
 			}
 		}
