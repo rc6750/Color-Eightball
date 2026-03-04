@@ -10,7 +10,8 @@ class PurpleShockWave extends Effects;
 #exec MESH SEQUENCE MESH=ShockWavem SEQ=Implode   STARTFRAME=0   NUMFRAMES=1
 #exec TEXTURE IMPORT NAME=Shockt1 FILE=TEXTURES\ShocktT1.PCX GROUP="Skins"
 #exec MESHMAP SCALE MESHMAP=ShockWavem X=1.0 Y=1.0 Z=2.0 
-#exec MESHMAP SETTEXTURE MESHMAP=ShockWavem NUM=1 TEXTURE=Shockt1
+#exec MESHMAP SETTEXTURE MESHMAP=ShockWavem NUM=0 TEXTURE=Rainbow.Skins.Shockt1
+#exec MESHMAP SETTEXTURE MESHMAP=ShockWavem NUM=1 TEXTURE=Rainbow.Skins.Shockt1
 
 var float OldShockDistance, ShockSize;
 var int ICount;
@@ -78,6 +79,11 @@ simulated function PostBeginPlay()
 {
 	local Pawn P;
 
+    Texture = Texture'Rainbow.Skins.Shockt1';
+    Skin = Texture'Rainbow.Skins.Shockt1';
+    MultiSkins[0] = Texture'Rainbow.Skins.Shockt1';
+    MultiSkins[1] = Texture'Rainbow.Skins.Shockt1';
+
 	if ( Role == ROLE_Authority ) 
 	{
 		for ( P=Level.PawnList; P!=None; P=P.NextPawn )
@@ -113,7 +119,7 @@ defaultproperties
      LifeSpan=1.500000
      DrawType=DT_Mesh
      Style=STY_Translucent
-     Mesh=LodMesh'Botpack.ShockWavem'
+     Mesh=LodMesh'Rainbow.ShockWavem'
      AmbientGlow=255
      bUnlit=True
 }
