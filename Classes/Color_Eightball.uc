@@ -903,6 +903,7 @@ state FireRockets
 		local GoldProj gosp;
 		local PurpleProj psp;
 		local LavaProj lsp;
+		local RandomTeleportProj randsp;
 		local ColorSeekingRocket s;
 		local Color_grenade g;
 		local float Angle, RocketRad;
@@ -962,7 +963,7 @@ state FireRockets
 		if ( bRedeemer ) i = rand(9);	
 		if ( !bRedeemer ) i = rand(8);
 		//log (i);	
-		//i = 5;
+		i = 6;
 		
 		switch(i)
 		{
@@ -1294,8 +1295,8 @@ state FireRockets
 				}
 				else 
 				{
-					gosp = Spawn( class'Rainbow.GoldProj',, '', FireLocation,FireRot);
-					gosp.NumExtraRockets = DupRockets;
+					randsp = Spawn( class'Rainbow.RandomTeleportProj',, '', FireLocation,FireRot);
+					randsp.NumExtraRockets = DupRockets;
 					if ( Angle > 0 )
 						gosp.Velocity *= (0.9 + 0.2 * FRand());	
 				}
