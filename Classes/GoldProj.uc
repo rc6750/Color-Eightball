@@ -38,12 +38,12 @@ function BeginState()
 
 function Explode(vector HitLocation, vector HitNormal)
 {
-	local Yellowteleeffect s;
+	local YellowHitFX s;
 
 	if ( Role < ROLE_Authority )
 			return;		
 
-	s = spawn(class'Rainbow.Yellowteleeffect',,,HitLocation + HitNormal*16);	
+	s = spawn(class'Rainbow.YellowHitFX',,,HitLocation + HitNormal*16);	
  	s.RemoteRole = ROLE_SimulatedProxy;	
 
 	Destroy();

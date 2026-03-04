@@ -57,7 +57,7 @@ defaultproperties
 {
 	RemoteRole=ROLE_SimulatedProxy
 	bNetTemporary=False
-	LifeSpan=2.000000
+	LifeSpan=6.000000
 	Texture=Texture'Rainbow.Lava.Jlava'
 	MyDamageType=Rainbow
 	Skin=Texture'Rainbow.Lava.Jlava'
