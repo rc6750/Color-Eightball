@@ -35,21 +35,25 @@ simulated function Timer()
 {
     local BlackHoleWisp W;
     local vector P, V;
+    local int i;
 
-    P = Location + VRand() * Radius;
-    P.Z = Location.Z + (FRand()*2 - 1) * (Radius * 0.25);
+    for (i = 0; i < 2; i++)   // spawn two wisps per tick
+    {
+        P = Location + VRand() * Radius;
+        P.Z = Location.Z + (FRand()*2 - 1) * (Radius * 0.25);
 
-    W = Spawn(class'Rainbow.BlackHoleWisp',,, P);
-    if (W == None)
-        return;
+        W = Spawn(class'Rainbow.BlackHoleWisp',,, P);
+        if (W == None)
+            continue;
 
-    // random size
-    W.DrawScale = 0.20 + FRand()*0.25;
+        // random size
+        W.DrawScale = 0.20 + FRand()*0.25;
 
-    // inward velocity
-    V = Normal(Location - P) * (400 + FRand()*500);
-    W.Velocity = V;
-    W.SetRotation(Rotator(V));
+        // inward velocity
+        V = Normal(Location - P) * (400 + FRand()*500);
+        W.Velocity = V;
+        W.SetRotation(Rotator(V));
+    }
 }
 
 defaultproperties
