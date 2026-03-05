@@ -963,7 +963,7 @@ state FireRockets
 		if ( bRedeemer ) i = rand(9);	
 		if ( !bRedeemer ) i = rand(8);
 		//log (i);	
-		i = 6;
+		//i = 6;
 		
 		switch(i)
 		{

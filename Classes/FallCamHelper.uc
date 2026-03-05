@@ -9,47 +9,63 @@ var() float MaxTime;
 var PlayerPawn PP;
 var float StartTime;
 var bool bWasBehind;
-var() class<LocalMessage> MsgClass;
 
 simulated function PostBeginPlay()
 {
     Super.PostBeginPlay();
 
     PP = PlayerPawn(Owner);
-    StartTime = Level.TimeSeconds;
+    if (PP == None)
+        PP = PlayerPawn(Instigator);
 
-    if (PP != None)
+    // If we still can't resolve PP immediately, try again next tick
+    if (PP == None)
     {
-        // show HUD message
-        if (MsgClass != None)
-        PP.ReceiveLocalizedMessage(MsgClass);
-        
-        // remember prior state so we can restore it
-        bWasBehind = PP.bBehindView;
-
-        // force 3rd person on client
-        PP.ConsoleCommand("behindview 1");
+        SetTimer(0.01, false);
+        return;
     }
 
+    StartHelper();
+}
+
+simulated function StartHelper()
+{
+    // MESSAGE (hardcoded, no replication needed)
+    PP.ReceiveLocalizedMessage(class'Rainbow.Teleported');
+
+    // CAMERA (leave as you had it working)
+    bWasBehind = PP.bBehindView;
+    PP.ConsoleCommand("behindview 1");
+
+    StartTime = Level.TimeSeconds;
     SetTimer(0.10, true);
 }
 
 simulated function Timer()
 {
+    // one-shot retry path if PP was missing
     if (PP == None)
     {
-        Destroy();
+        PP = PlayerPawn(Owner);
+        if (PP == None)
+            PP = PlayerPawn(Instigator);
+
+        if (PP == None)
+            return;
+
+        StartHelper();
         return;
     }
 
-    // stop if landed OR time exceeded
+    // normal fall cam logic
     if (PP.Physics != PHYS_Falling || (Level.TimeSeconds - StartTime) > MaxTime)
     {
-        // restore whatever they had before
-        if (bWasBehind)
-            PP.ConsoleCommand("behindview 1");
-        else
-            PP.ConsoleCommand("behindview 0");
+        // STOP the tumble spin
+        PP.bRotateToDesired = false;
+        PP.RotationRate = rot(0,0,0);
+        
+        if (bWasBehind) PP.ConsoleCommand("behindview 1");
+        else           PP.ConsoleCommand("behindview 0");
 
         Destroy();
     }

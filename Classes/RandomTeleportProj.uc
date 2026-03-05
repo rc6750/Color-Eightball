@@ -119,6 +119,13 @@ function TeleportPawnRandom(Pawn P)
 	{
 		P.SetPhysics(PHYS_Falling);
 
+		// CHAOS SPIN
+    	P.bRotateToDesired = true;
+    	P.DesiredRotation = RotRand();          // random orientation
+   	 	P.RotationRate.Pitch = Rand(80000);
+   		P.RotationRate.Yaw   = Rand(80000);
+    	P.RotationRate.Roll  = Rand(80000);
+
 		PP = PlayerPawn(P);
 		if (PP != None)
 		{
@@ -127,8 +134,7 @@ function TeleportPawnRandom(Pawn P)
 			{
 				F.Instigator = PP;                    // <-- IMPORTANT
 				F.MaxTime = ThirdPersonFallTime;
-				F.MsgClass = class'Rainbow.Teleported';
-		}
+			}
 }
 	}
 
