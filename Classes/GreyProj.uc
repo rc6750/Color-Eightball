@@ -63,9 +63,11 @@ function Freeze(vector HitLocation,vector HitNormal)
             if (Instigator.PlayerReplicationInfo.Team != Victim.PlayerReplicationInfo.Team)
  	    {
 
-		fb = spawn(class'Rainbow.FreezeBitch',,,,Victim.rotation);
-		fb.mesh=Victim.mesh;
-		fb.animsequence=Victim.animsequence;	
+		// Spawn statue owned by victim so it can read Victim.Weapon
+		fb = Spawn(class'Rainbow.FreezeBitch', Victim,,, Victim.Rotation);
+		fb.Mesh         = Victim.Mesh;
+		fb.AnimSequence = Victim.AnimSequence;
+		fb.AnimFrame = Victim.AnimFrame;	
 	
 		Victim.level.game.Killed(Instigator, Victim, 'freezed');
 		Victim.HidePlayer();
@@ -74,20 +76,22 @@ function Freeze(vector HitLocation,vector HitNormal)
 		Victim.GotoState('Dying');	
 
 		Victim.ReceiveLocalizedMessage( class'Rainbow.Frozen' );
-            }
+          }
 	  }
 	else
 	  {
-		fb = spawn(class'Rainbow.FreezeBitch',,,,Victim.rotation);
-		fb.mesh=Victim.mesh;
-		fb.animsequence=Victim.animsequence;	
-
+		// Spawn statue owned by victim so it can read Victim.Weapon
+		fb = Spawn(class'Rainbow.FreezeBitch', Victim,,, Victim.Rotation);
+		fb.Mesh         = Victim.Mesh;
+		fb.AnimSequence = Victim.AnimSequence;
+		fb.AnimFrame = Victim.AnimFrame;	
+	
 		Victim.level.game.Killed(Instigator, Victim, 'freezed');
 		Victim.HidePlayer();
 		Victim.Level.Game.DiscardInventory(Victim);
 		Victim.Health = -1;
-		Victim.GotoState('Dying');
-	
+		Victim.GotoState('Dying');	
+
 		Victim.ReceiveLocalizedMessage( class'Rainbow.Frozen' );
 		
           }

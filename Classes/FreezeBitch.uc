@@ -10,6 +10,10 @@ var float itime,lifetime;
 var() texture tex1;
 var() sound FreezeSound;
 var vector v001;
+var FrozenWeaponProp FrozenGun;
+
+var() vector WeaponOffset;     // tweak per pose/model
+var() rotator WeaponRotOffset; // tweak per weapon/model
 
 simulated function BeginPlay()
 {
@@ -22,9 +26,53 @@ simulated function BeginPlay()
 	v001.X=0;
 	v001.Y=0;
 	v001.Z=1;
+	SetupFrozenWeaponFrom(Pawn(Owner));
+}
+
+function SetupFrozenWeaponFrom(Pawn VP)
+{
+    local Mesh WMesh;
+    local int i;
+
+    if (VP == None || VP.Weapon == None)
+        return;
+
+    WMesh = VP.Weapon.ThirdPersonMesh;
+    if (WMesh == None)
+        WMesh = VP.Weapon.PickupViewMesh;
+
+    if (WMesh == None)
+        return;
+
+    FrozenGun = Spawn(class'Rainbow.FrozenWeaponProp', self);
+    if (FrozenGun == None)
+        return;
+
+    FrozenGun.Mesh = WMesh;
+    FrozenGun.Skin = tex1;         // ice it too
+    for (i = 0; i < 8; i++)
+        FrozenGun.MultiSkins[i] = tex1;
+    FrozenGun.SetBase(self);       // follow statue
+
+    UpdateFrozenWeapon();          // place it immediately
+}
+
+function UpdateFrozenWeapon()
+{
+    local vector Off;
+
+    if (FrozenGun == None)
+        return;
+
+    // Rotate the offset with the statue’s rotation so it stays “in hand” directionally
+    Off = WeaponOffset >> Rotation;
+
+    FrozenGun.SetLocation(Location + Off);
+    FrozenGun.SetRotation(Rotation + WeaponRotOffset);
 }
 
 simulated function tick(float DeltaTime){
+	UpdateFrozenWeapon();
 	lifetime+=DeltaTime;
 	if(lifetime>=25) takedamage(10,PlayerPawn(Owner),Location,v001,'');
 	if (lifetime>(itime+30*frand())){
@@ -32,6 +80,13 @@ simulated function tick(float DeltaTime){
 		if(skin==tex1) skin=tex1;
 		else skin=tex1;
 	}	
+}
+
+simulated function Destroyed()
+{
+    if (FrozenGun != None)
+        FrozenGun.Destroy();
+    Super.Destroyed();
 }
 
 auto state active
@@ -64,4 +119,6 @@ defaultproperties
      bCollideWorld=True
      bBlockActors=True
      bBlockPlayers=True
+     WeaponOffset=(X=20,Y=8,Z=15)
+	WeaponRotOffset=(Pitch=0,Yaw=16384,Roll=0)
 }
