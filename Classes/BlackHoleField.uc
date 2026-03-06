@@ -78,6 +78,7 @@ function Timer()
 
 		if (PlayerPawn(P) != None && FRand() < 0.50)  // don’t spam every tick
     		PlayerPawn(P).ClientMessage("You are being sucked into a black hole!");
+    		PlayerPawn(P).ReceiveLocalizedMessage(class'Rainbow.BlackHoled');
 
 		// Dir points from pawn -> center
 		Dir = Location - P.Location;
