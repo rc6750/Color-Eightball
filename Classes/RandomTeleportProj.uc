@@ -97,6 +97,7 @@ function TeleportPawnRandom(Pawn P)
 	local rotator NewRot;
 	local PlayerPawn PP;
 	local FallCamHelper F;
+	local TeleportDeathCredit TDC;
 
 	if (P == None || P.Health <= 0)
 		return;
@@ -107,6 +108,14 @@ function TeleportPawnRandom(Pawn P)
 	// Actually move (SetLocation returns false if encroaching)
 	if (!P.SetLocation(Dest))
 		return;
+
+	// Track post-teleport environmental death and credit it to the shooter
+	if (Instigator != None && P != None && P != Instigator && P.Health > 0)
+	{
+		TDC = Spawn(class'Rainbow.TeleportDeathCredit', Instigator);
+		if (TDC != None)
+			TDC.Init(P, Instigator, 8.0, 'teleported');
+	}	
 
 	NewRot = P.Rotation;
 	NewRot.Pitch = 0;

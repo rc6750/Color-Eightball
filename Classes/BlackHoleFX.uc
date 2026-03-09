@@ -37,7 +37,7 @@ simulated function Timer()
     local vector P, V;
     local int i;
 
-    for (i = 0; i < 2; i++)   // spawn two wisps per tick
+    for (i = 0; i < 4; i++)   // spawn four wisps per tick
     {
         P = Location + VRand() * Radius;
         P.Z = Location.Z + (FRand()*2 - 1) * (Radius * 0.25);

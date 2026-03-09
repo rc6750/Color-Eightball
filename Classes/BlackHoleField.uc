@@ -158,7 +158,7 @@ function Collapse()
 	HurtRadius(FinalBlastDamage, FinalBlastRadius, FinalDamageType, 0, Location);
 
 	// Quick visible cue (optional)
-	Spawn(class'Rainbow.RainbowShockWave',,, Location);
+	Spawn(class'Rainbow.BlackHoleShockWave',,, Location);
 
 	Destroy();
 }
