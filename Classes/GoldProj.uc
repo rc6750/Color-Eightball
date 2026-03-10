@@ -29,10 +29,10 @@ auto state Flying
 		
 	}
 
-function BeginState()
-	{
-		Velocity = vector(Rotation) * speed;	
-	}
+	function BeginState()
+		{
+			Velocity = vector(Rotation) * speed;	
+		}
 }
 	
 
@@ -63,19 +63,26 @@ ignores ProcessTouch, HitWall;
 			{
 	 			if(Victim.Health > 0)
 	 			{
-	  				if (Victim.Fatness < 248)
+	  				if (Victim.Fatness < 225)
 	  				{
 						Victim.Fatness += 20;
 						Victim.ReceiveLocalizedMessage( class'Rainbow.Tighter' );
 	  				}
+	  				else if (Victim.Fatness > 225 && Victim.Fatness < 248)
+	  				{
+	  					if (PlayerPawn(Victim) != None)
+                				PlayerPawn(Victim).ConsoleCommand("behindview 1");
+                			Victim.Fatness += 20;
+						Victim.ReceiveLocalizedMessage( class'Rainbow.Tighter' );	
+	  				}
 	  				else
 	  				{
-					Victim.TakeDamage(1000, Killer,Victim.Location,(MomentumTransfer * Normal(Velocity)), MyDamageType);
-	    			Victim.Level.Game.DiscardInventory(Victim);
-					Victim.PlaySound( Victim.Die, SLOT_Talk );
-					Victim.ReceiveLocalizedMessage( class'Rainbow.FatExplosion' );	
-					MakeNormal(Victim);
-					GotoState('');
+						Victim.TakeDamage(1000, Killer,Victim.Location,(MomentumTransfer * Normal(Velocity)), MyDamageType);
+		    				Victim.Level.Game.DiscardInventory(Victim);
+						Victim.PlaySound( Victim.Die, SLOT_Talk );
+						Victim.ReceiveLocalizedMessage( class'Rainbow.FatExplosion' );	
+						MakeNormal(Victim);
+						GotoState('');
 	  				}
 				}
 	 			else
@@ -89,15 +96,22 @@ ignores ProcessTouch, HitWall;
 		{
 		 	if(Victim.Health > 0)
 	 		{
-	  			if (Victim.Fatness < 248)
+	  			if (Victim.Fatness < 225)
 	  			{
 					Victim.Fatness += 20;
 					Victim.ReceiveLocalizedMessage( class'Rainbow.Tighter' );
 	  			}
+	  			else if (Victim.Fatness > 225 && Victim.Fatness < 248)
+	  				{
+	  					if (PlayerPawn(Victim) != None)
+                				PlayerPawn(Victim).ConsoleCommand("behindview 1");
+                			Victim.Fatness += 20;
+						Victim.ReceiveLocalizedMessage( class'Rainbow.Tighter' );	
+	  				}
 	  			else
 	  			{
 					Victim.TakeDamage(1000, Killer,Victim.Location,(MomentumTransfer * Normal(Velocity)), MyDamageType);
-				    Victim.Level.Game.DiscardInventory(Victim);
+				     Victim.Level.Game.DiscardInventory(Victim);
 					Victim.PlaySound( Victim.Die, SLOT_Talk );
 					Victim.ReceiveLocalizedMessage( class'Rainbow.FatExplosion' );	
 					MakeNormal(Victim);
