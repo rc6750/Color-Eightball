@@ -62,6 +62,7 @@ defaultproperties
      LightType=LT_Steady
      LightEffect=LE_NonIncidence
      LightBrightness=255
+     LightHue=175
      LightSaturation=72
      LightRadius=6
      bFixedRotationDir=True

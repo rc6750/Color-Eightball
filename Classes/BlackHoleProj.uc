@@ -21,6 +21,13 @@ simulated function PostBeginPlay()
 	Velocity = Vector(Rotation) * Speed;
 }
 
+simulated function Tick(float DeltaTime)
+{
+	Super.Tick(DeltaTime);
+	ScaleGlow = 0.6 + 0.4 * Sin(Level.TimeSeconds * 14);
+	DrawScale = 0.40 + 0.06 * Sin(Level.TimeSeconds * 10);
+}
+
 simulated function ProcessTouch(Actor Other, vector HitLocation)
 {
 	if (Other == Instigator || Other.IsA('Projectile'))
