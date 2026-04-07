@@ -3,12 +3,14 @@
 //=============================================================================
 class RainbowConfigWindow expands UWindowFramedWindow;
 
+const VERSION = "1.06";
+
 function BeginPlay()
 {
 Super.BeginPlay();
 
 //Set the title of the Framed Window
-WindowTitle = "Color Eightball Launcher Settings";
+WindowTitle = "Color Eightball Settings v" $ VERSION;
 
 //The class of the content
 ClientClass = class'RainbowClientWindow';

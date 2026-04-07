@@ -10,6 +10,6 @@ function Execute()
 
 defaultproperties
 {
-     MenuCaption="&Color Eightball Launcher Setup"
-     MenuHelp="Configure the Color Eightball Launcher."
+     MenuCaption="&Color Eightball Launcher Setup v1.06"
+     MenuHelp="Configure the Color Eightball Launcher (v1.06)."
 }
