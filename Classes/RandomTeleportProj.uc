@@ -240,7 +240,7 @@ function bool GetMapBoundsFromNav(out vector MinV, out vector MaxV)
 defaultproperties
 {
 	ExploSound=Sound'UnrealShare.General.SpecialExpl'
-	Speed=1000.000000
+	Speed=1500.000000
 	Damage=55.000000
 	MomentumTransfer=70000
 	MyDamageType=RainbowDamage

@@ -42,7 +42,7 @@ function Explode(vector HitLocation, vector HitNormal)
 defaultproperties
 {
      ExploSound=Sound'UnrealShare.General.SpecialExpl'
-     speed=1000.000000
+     speed=1500.000000
      Damage=1000.000000
      MomentumTransfer=70000
      MyDamageType=RainbowDamage

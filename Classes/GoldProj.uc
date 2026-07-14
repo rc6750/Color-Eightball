@@ -146,8 +146,8 @@ function MakeNormal(Pawn Victim)
 defaultproperties
 {
      ExploSound=Sound'UnrealShare.General.SpecialExpl'
-     speed=900.000000
-     MaxSpeed=1600.000000
+     speed=1700.000000
+     MaxSpeed=1700.000000
      Damage=55.000000
      MomentumTransfer=70000
      MyDamageType=RainbowDamage

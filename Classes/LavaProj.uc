@@ -180,7 +180,7 @@ simulated function Tick(float DeltaTime)
 defaultproperties
 {
      ExploSound=Sound'UnrealShare.General.SpecialExpl'
-     Speed=1000.000000
+     Speed=1500.000000
      Damage=55.000000
      MomentumTransfer=70000
      MyDamageType='RainbowDamage'
