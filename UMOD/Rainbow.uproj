@@ -6,14 +6,14 @@ System\Rainbow.int
 System\Rainbow.u
 [Requirement]
 product=UnrealTournament
-version=436
-developer=Epic Games, Inc.
-productURL=http://www.unrealtournament.com/
-versionURL=http://unreal.epicgames.com/
-developerURL=http://www.epicgames.com/
+version=469
+developer=OldUnreal
+productURL=https://github.com/OldUnreal/UnrealTournamentPatches
+versionURL=https://github.com/OldUnreal/UnrealTournamentPatches/releases/tag/v469f-rc5
+developerURL=https://github.com/OldUnreal
 [Product]
 product=Color_Eightball
-version=1.06
+version=107
 developer=rc6750
 productURL=https://github.com/rc6750/Color-Eightball
 versionURL=https://github.com/rc6750/Color-Eightball
@@ -21,4 +21,5 @@ developerURL=https://github.com/rc6750/Color-Eightball
 readme=Rainbow\UMOD\readme.txt
 title=Color Eightball Install
 cleanup=True
-archive=Color_Eightball.umod
+logo=Rainbow\UMOD\bogwraithbanner.bmp
+archive=Color_Eightball_107.umod
