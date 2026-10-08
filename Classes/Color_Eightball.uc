@@ -1005,13 +1005,16 @@ state FireRockets
 			else 
 			{
 				g = Spawn( class 'Rainbow.Color_Grenade',, '', FireLocation,AdjustedAim);
-				g.NumExtraGrenades = DupRockets;
-				if ( DupRockets > 0 )
+				if (g != None)
 				{
-					RandRot.Pitch = FRand() * 1500 - 750;
-					RandRot.Yaw = FRand() * 1500 - 750;
-					RandRot.Roll = FRand() * 1500 - 750;
-					g.Velocity = g.Velocity >> RandRot;
+					g.NumExtraGrenades = DupRockets;
+					if ( DupRockets > 0 )
+					{
+						RandRot.Pitch = FRand() * 1500 - 750;
+						RandRot.Yaw = FRand() * 1500 - 750;
+						RandRot.Roll = FRand() * 1500 - 750;
+						g.Velocity = g.Velocity >> RandRot;
+					}
 				}
 			}
 
@@ -1055,13 +1058,16 @@ state FireRockets
 			else 
 			{
 				g = Spawn( class 'Rainbow.Color_Grenade',, '', FireLocation,AdjustedAim);
-				g.NumExtraGrenades = DupRockets;
-				if ( DupRockets > 0 )
+				if (g != None)
 				{
-					RandRot.Pitch = FRand() * 1500 - 750;
-					RandRot.Yaw = FRand() * 1500 - 750;
-					RandRot.Roll = FRand() * 1500 - 750;
-					g.Velocity = g.Velocity >> RandRot;
+					g.NumExtraGrenades = DupRockets;
+					if ( DupRockets > 0 )
+					{
+						RandRot.Pitch = FRand() * 1500 - 750;
+						RandRot.Yaw = FRand() * 1500 - 750;
+						RandRot.Roll = FRand() * 1500 - 750;
+						g.Velocity = g.Velocity >> RandRot;
+					}
 				}
 			}
 
@@ -1105,13 +1111,16 @@ state FireRockets
 			else 
 			{
 				g = Spawn( class 'Rainbow.Color_Grenade',, '', FireLocation,AdjustedAim);
-				g.NumExtraGrenades = DupRockets;
-				if ( DupRockets > 0 )
+				if (g != None)
 				{
-					RandRot.Pitch = FRand() * 1500 - 750;
-					RandRot.Yaw = FRand() * 1500 - 750;
-					RandRot.Roll = FRand() * 1500 - 750;
-					g.Velocity = g.Velocity >> RandRot;
+					g.NumExtraGrenades = DupRockets;
+					if ( DupRockets > 0 )
+					{
+						RandRot.Pitch = FRand() * 1500 - 750;
+						RandRot.Yaw = FRand() * 1500 - 750;
+						RandRot.Roll = FRand() * 1500 - 750;
+						g.Velocity = g.Velocity >> RandRot;
+					}
 				}
 			}
 
@@ -1155,13 +1164,16 @@ state FireRockets
 			else 
 			{
 				g = Spawn( class 'Rainbow.Color_Grenade',, '', FireLocation,AdjustedAim);
-				g.NumExtraGrenades = DupRockets;
-				if ( DupRockets > 0 )
+				if (g != None)
 				{
-					RandRot.Pitch = FRand() * 1500 - 750;
-					RandRot.Yaw = FRand() * 1500 - 750;
-					RandRot.Roll = FRand() * 1500 - 750;
-					g.Velocity = g.Velocity >> RandRot;
+					g.NumExtraGrenades = DupRockets;
+					if ( DupRockets > 0 )
+					{
+						RandRot.Pitch = FRand() * 1500 - 750;
+						RandRot.Yaw = FRand() * 1500 - 750;
+						RandRot.Roll = FRand() * 1500 - 750;
+						g.Velocity = g.Velocity >> RandRot;
+					}
 				}
 			}
 
@@ -1205,13 +1217,16 @@ state FireRockets
 			else 
 			{
 				g = Spawn( class 'Rainbow.Color_Grenade',, '', FireLocation,AdjustedAim);
-				g.NumExtraGrenades = DupRockets;
-				if ( DupRockets > 0 )
+				if (g != None)
 				{
-					RandRot.Pitch = FRand() * 1500 - 750;
-					RandRot.Yaw = FRand() * 1500 - 750;
-					RandRot.Roll = FRand() * 1500 - 750;
-					g.Velocity = g.Velocity >> RandRot;
+					g.NumExtraGrenades = DupRockets;
+					if ( DupRockets > 0 )
+					{
+						RandRot.Pitch = FRand() * 1500 - 750;
+						RandRot.Yaw = FRand() * 1500 - 750;
+						RandRot.Roll = FRand() * 1500 - 750;
+						g.Velocity = g.Velocity >> RandRot;
+					}
 				}
 			}
 
@@ -1249,19 +1264,22 @@ state FireRockets
 					lsp = Spawn( class'Rainbow.LavaProj',, '', FireLocation,FireRot);
 					lsp.NumExtraRockets = DupRockets;
 					if ( Angle > 0 )
-						gsp.Velocity *= (0.9 + 0.2 * FRand());	
+						lsp.Velocity *= (0.9 + 0.2 * FRand());	
 				}
 			}
 			else 
 			{
 				g = Spawn( class 'Rainbow.Color_Grenade',, '', FireLocation,AdjustedAim);
-				g.NumExtraGrenades = DupRockets;
-				if ( DupRockets > 0 )
+				if (g != None)
 				{
-					RandRot.Pitch = FRand() * 1500 - 750;
-					RandRot.Yaw = FRand() * 1500 - 750;
-					RandRot.Roll = FRand() * 1500 - 750;
-					g.Velocity = g.Velocity >> RandRot;
+					g.NumExtraGrenades = DupRockets;
+					if ( DupRockets > 0 )
+					{
+						RandRot.Pitch = FRand() * 1500 - 750;
+						RandRot.Yaw = FRand() * 1500 - 750;
+						RandRot.Roll = FRand() * 1500 - 750;
+						g.Velocity = g.Velocity >> RandRot;
+					}
 				}
 			}
 
@@ -1299,19 +1317,22 @@ state FireRockets
 					randsp = Spawn( class'Rainbow.RandomTeleportProj',, '', FireLocation,FireRot);
 					randsp.NumExtraRockets = DupRockets;
 					if ( Angle > 0 )
-						gosp.Velocity *= (0.9 + 0.2 * FRand());	
+						randsp.Velocity *= (0.9 + 0.2 * FRand());	
 				}
 			}
 			else 
 			{
 				g = Spawn( class 'Rainbow.Color_Grenade',, '', FireLocation,AdjustedAim);
-				g.NumExtraGrenades = DupRockets;
-				if ( DupRockets > 0 )
+				if (g != None)
 				{
-					RandRot.Pitch = FRand() * 1500 - 750;
-					RandRot.Yaw = FRand() * 1500 - 750;
-					RandRot.Roll = FRand() * 1500 - 750;
-					g.Velocity = g.Velocity >> RandRot;
+					g.NumExtraGrenades = DupRockets;
+					if ( DupRockets > 0 )
+					{
+						RandRot.Pitch = FRand() * 1500 - 750;
+						RandRot.Yaw = FRand() * 1500 - 750;
+						RandRot.Roll = FRand() * 1500 - 750;
+						g.Velocity = g.Velocity >> RandRot;
+					}
 				}
 			}
 
@@ -1349,19 +1370,22 @@ state FireRockets
 					bhsp = Spawn( class'Rainbow.BlackHoleProj',, '', FireLocation,FireRot);
 					bhsp.NumExtraRockets = DupRockets;
 					if ( Angle > 0 )
-						grsp.Velocity *= (0.9 + 0.2 * FRand());	
+						bhsp.Velocity *= (0.9 + 0.2 * FRand());	
 				}
 			}
 			else 
 			{
 				g = Spawn( class 'Rainbow.Color_Grenade',, '', FireLocation,AdjustedAim);
-				g.NumExtraGrenades = DupRockets;
-				if ( DupRockets > 0 )
+				if (g != None)
 				{
-					RandRot.Pitch = FRand() * 1500 - 750;
-					RandRot.Yaw = FRand() * 1500 - 750;
-					RandRot.Roll = FRand() * 1500 - 750;
-					g.Velocity = g.Velocity >> RandRot;
+					g.NumExtraGrenades = DupRockets;
+					if ( DupRockets > 0 )
+					{
+						RandRot.Pitch = FRand() * 1500 - 750;
+						RandRot.Yaw = FRand() * 1500 - 750;
+						RandRot.Roll = FRand() * 1500 - 750;
+						g.Velocity = g.Velocity >> RandRot;
+					}
 				}
 			}
 
@@ -1405,13 +1429,16 @@ state FireRockets
 			else 
 			{
 				g = Spawn( class 'Rainbow.Color_Grenade',, '', FireLocation,AdjustedAim);
-				g.NumExtraGrenades = DupRockets;
-				if ( DupRockets > 0 )
+				if (g != None)
 				{
-					RandRot.Pitch = FRand() * 1500 - 750;
-					RandRot.Yaw = FRand() * 1500 - 750;
-					RandRot.Roll = FRand() * 1500 - 750;
-					g.Velocity = g.Velocity >> RandRot;
+					g.NumExtraGrenades = DupRockets;
+					if ( DupRockets > 0 )
+					{
+						RandRot.Pitch = FRand() * 1500 - 750;
+						RandRot.Yaw = FRand() * 1500 - 750;
+						RandRot.Roll = FRand() * 1500 - 750;
+						g.Velocity = g.Velocity >> RandRot;
+					}
 				}
 			}
 

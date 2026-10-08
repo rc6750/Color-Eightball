@@ -117,9 +117,12 @@ simulated function skinnedFrag(class<fragment> FragType, texture FragSkin, vecto
 	for (i=0 ; i<NumFrags ; i++) 
 	{
 		s = Spawn( FragType, Owner);
-		s.CalcVelocity(Momentum/100,0);
-		s.Skin = FragSkin;
-		s.DrawScale = DSize*0.5+0.7*DSize*FRand();
+		if (s != None)
+		{
+			s.CalcVelocity(Momentum/100,0);
+			s.Skin = FragSkin;
+			s.DrawScale = DSize*0.5+0.7*DSize*FRand();
+		}
 	}
 
 	Destroy();

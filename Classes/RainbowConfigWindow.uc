@@ -3,7 +3,7 @@
 //=============================================================================
 class RainbowConfigWindow expands UWindowFramedWindow;
 
-const VERSION = "1.06";
+const VERSION = "1.07";
 
 function BeginPlay()
 {
