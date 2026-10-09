@@ -31,12 +31,24 @@ auto state Flying
 function BlowUp(vector HitLocation)
 	{
 		local Pawn P;
+		local Pawn HitPawn[32];
+		local int HitHealth[32];
+		local int HitCount;
+		local int i;
+
+		foreach RadiusActors(class'Pawn', P, 220.0, HitLocation)
+			if (P != None && P != Instigator && P.Health > 0 && HitCount < 32)
+			{
+				HitPawn[HitCount] = P;
+				HitHealth[HitCount] = P.Health;
+				HitCount++;
+			}
 
 		HurtRadius(Damage,220.0, 'RainbowRocketDamage', MomentumTransfer, HitLocation );
 
-		foreach RadiusActors(class'Pawn', P, 220.0, HitLocation)
-			if (P != None && P != Instigator && P.Health <= 0)
-				class'Rainbow.RainbowKillMessageHelper'.static.Send(Instigator, P, 1);
+		for (i = 0; i < HitCount; i++)
+			if (HitPawn[i] != None && HitHealth[i] > 0 && HitPawn[i].Health <= 0)
+				class'Rainbow.RainbowKillMessageHelper'.static.Send(Instigator, HitPawn[i], 1, 'BlueProj');
 
 		MakeNoise(1.0);
 	}

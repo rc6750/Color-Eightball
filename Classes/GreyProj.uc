@@ -69,7 +69,7 @@ function Freeze(vector HitLocation,vector HitNormal)
 		fb.AnimSequence = Victim.AnimSequence;
 		fb.AnimFrame = Victim.AnimFrame;	
 	
-		class'Rainbow.RainbowKillMessageHelper'.static.Send(Instigator, Victim, 4);
+		class'Rainbow.RainbowKillMessageHelper'.static.Send(Instigator, Victim, 4, 'GreyProj');
 		Victim.level.game.Killed(Instigator, Victim, 'RainbowFrozenDamage');
 		Victim.HidePlayer();
 		Victim.Level.Game.DiscardInventory(Victim);
@@ -87,7 +87,7 @@ function Freeze(vector HitLocation,vector HitNormal)
 		fb.AnimSequence = Victim.AnimSequence;
 		fb.AnimFrame = Victim.AnimFrame;	
 	
-		class'Rainbow.RainbowKillMessageHelper'.static.Send(Instigator, Victim, 4);
+		class'Rainbow.RainbowKillMessageHelper'.static.Send(Instigator, Victim, 4, 'GreyProj');
 		Victim.level.game.Killed(Instigator, Victim, 'RainbowFrozenDamage');
 		Victim.HidePlayer();
 		Victim.Level.Game.DiscardInventory(Victim);

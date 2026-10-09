@@ -36,11 +36,19 @@ function bool PlayerHasRainbowLauncher(PlayerReplicationInfo PRI)
 	return false;
 }
 
-function bool IsRainbowDeathMessage(
+function bool IsRainbowRelatedMessage(Object OptionalObject, PlayerReplicationInfo KillerPRI, PlayerReplicationInfo VictimPRI)
+{
+	return (OptionalObject == class'Rainbow.Color_Eightball')
+		|| PlayerHasRainbowLauncher(KillerPRI)
+		|| PlayerHasRainbowLauncher(VictimPRI);
+}
+
+function bool IsRainbowDeathBundle(
 	class<LocalMessage> Message,
 	int Switch,
 	Object OptionalObject,
-	PlayerReplicationInfo KillerPRI
+	PlayerReplicationInfo KillerPRI,
+	PlayerReplicationInfo VictimPRI
 )
 {
 	if (Message != class'Botpack.DeathMessagePlus')
@@ -49,7 +57,50 @@ function bool IsRainbowDeathMessage(
 	if (Switch != 0 && Switch != 8)
 		return false;
 
-	return (OptionalObject == class'Rainbow.Color_Eightball') || PlayerHasRainbowLauncher(KillerPRI);
+	return IsRainbowRelatedMessage(OptionalObject, KillerPRI, VictimPRI);
+}
+
+function string PRIName(PlayerReplicationInfo PRI)
+{
+	if (PRI == None)
+		return "None";
+
+	return PRI.PlayerName;
+}
+
+function LogStockMessage(
+	string Status,
+	Actor Sender,
+	Pawn Receiver,
+	class<LocalMessage> Message,
+	int Switch,
+	PlayerReplicationInfo RelatedPRI_1,
+	PlayerReplicationInfo RelatedPRI_2,
+	Object OptionalObject
+)
+{
+	local string ReceiverName;
+
+	if (!class'Rainbow.Color_Eightball'.default.bLogRainbowKillMessages)
+		return;
+
+	if (Receiver != None && Receiver.PlayerReplicationInfo != None)
+		ReceiverName = Receiver.PlayerReplicationInfo.PlayerName;
+	else
+		ReceiverName = "None";
+
+	Log(
+		"RainbowStockMessage "
+		$ Status
+		$ " message=" $ string(Message)
+		$ " switch=" $ string(Switch)
+		$ " pri1=" $ PRIName(RelatedPRI_1)
+		$ " pri2=" $ PRIName(RelatedPRI_2)
+		$ " receiver=" $ ReceiverName
+		$ " optional=" $ string(OptionalObject)
+		$ " sender=" $ string(Sender),
+		'RainbowKill'
+	);
 }
 
 function bool MutatorBroadcastLocalizedMessage(
@@ -62,8 +113,14 @@ function bool MutatorBroadcastLocalizedMessage(
 	out optional Object OptionalObject
 )
 {
-	if (IsRainbowDeathMessage(Message, Switch, OptionalObject, RelatedPRI_1))
+	if (IsRainbowDeathBundle(Message, Switch, OptionalObject, RelatedPRI_1, RelatedPRI_2))
+	{
+		LogStockMessage("block", Sender, Receiver, Message, Switch, RelatedPRI_1, RelatedPRI_2, OptionalObject);
 		return false;
+	}
+
+	if (Message == class'Botpack.DeathMessagePlus')
+		LogStockMessage("allow", Sender, Receiver, Message, Switch, RelatedPRI_1, RelatedPRI_2, OptionalObject);
 
 	if (NextMessageMutator != None)
 		return NextMessageMutator.MutatorBroadcastLocalizedMessage(Sender, Receiver, Message, Switch, RelatedPRI_1, RelatedPRI_2, OptionalObject);

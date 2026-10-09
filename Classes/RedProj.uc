@@ -32,16 +32,28 @@ auto state Flying
 function Explode(vector HitLocation, vector HitNormal)
 	{
 		local Pawn P;
+		local Pawn HitPawn[32];
+		local int HitHealth[32];
+		local int HitCount;
+		local int i;
 		local RainbowShockWave ShockWave;
 
 		if ( Role < ROLE_Authority )
 			return;
 
+		foreach RadiusActors(class'Pawn', P, 300.0, HitLocation)
+			if (P != None && P != Instigator && P.Health > 0 && HitCount < 32)
+			{
+				HitPawn[HitCount] = P;
+				HitHealth[HitCount] = P.Health;
+				HitCount++;
+			}
+
 		HurtRadius(Damage,300.0, 'RainbowRedeemerDamage', MomentumTransfer, HitLocation );
 
-		foreach RadiusActors(class'Pawn', P, 300.0, HitLocation)
-			if (P != None && P != Instigator && P.Health <= 0)
-				class'Rainbow.RainbowKillMessageHelper'.static.Send(Instigator, P, 2);
+		for (i = 0; i < HitCount; i++)
+			if (HitPawn[i] != None && HitHealth[i] > 0 && HitPawn[i].Health <= 0)
+				class'Rainbow.RainbowKillMessageHelper'.static.Send(Instigator, HitPawn[i], 2, 'RedProj');
 
 		ShockWave = spawn(class'RainbowShockWave',,,HitLocation+ HitNormal*16);
 		if (ShockWave != None)

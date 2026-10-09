@@ -5,5 +5,5 @@ class RainbowKillMessageLine3 extends RainbowKillMessage;
 
 defaultproperties
 {
-	YPos=292.000000
+	YPos=432.000000
 }

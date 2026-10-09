@@ -55,7 +55,7 @@ function Timer()
 
 	for (i = 0; i < HitCount; i++)
 		if (HitPawn[i] != None && HitHealth[i] > 0 && HitPawn[i].Health <= 0)
-			class'Rainbow.RainbowKillMessageHelper'.static.Send(Instigator, HitPawn[i], 6);
+			class'Rainbow.RainbowKillMessageHelper'.static.Send(Instigator, HitPawn[i], 6, 'LavaSplash');
 
 	Destroy();	
 }

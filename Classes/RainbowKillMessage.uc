@@ -68,6 +68,6 @@ defaultproperties
 	bIsUnique=False
 	bFadeMessage=True
 	DrawColor=(R=0,G=128,B=255)
-	YPos=220.000000
+	YPos=360.000000
 	bCenter=True
 }

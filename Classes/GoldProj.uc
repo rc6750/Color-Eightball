@@ -78,7 +78,7 @@ ignores ProcessTouch, HitWall;
 	  				else
 	  				{
 						Victim.TakeDamage(1000, Killer,Victim.Location,(MomentumTransfer * Normal(Velocity)), MyDamageType);
-						class'Rainbow.RainbowKillMessageHelper'.static.Send(Killer, Victim, 5);
+						class'Rainbow.RainbowKillMessageHelper'.static.Send(Killer, Victim, 5, 'GoldProj');
 		    				Victim.Level.Game.DiscardInventory(Victim);
 						Victim.PlaySound( Victim.Die, SLOT_Talk );
 						Victim.ReceiveLocalizedMessage( class'Rainbow.FatExplosion' );	
@@ -112,7 +112,7 @@ ignores ProcessTouch, HitWall;
 	  			else
 	  			{
 					Victim.TakeDamage(1000, Killer,Victim.Location,(MomentumTransfer * Normal(Velocity)), MyDamageType);
-					class'Rainbow.RainbowKillMessageHelper'.static.Send(Killer, Victim, 5);
+					class'Rainbow.RainbowKillMessageHelper'.static.Send(Killer, Victim, 5, 'GoldProj');
 				     Victim.Level.Game.DiscardInventory(Victim);
 					Victim.PlaySound( Victim.Die, SLOT_Talk );
 					Victim.ReceiveLocalizedMessage( class'Rainbow.FatExplosion' );	

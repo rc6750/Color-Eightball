@@ -94,7 +94,7 @@ function Disintegrate(vector HitLocation,vector HitNormal, Pawn Victim)
 	   if (Instigator.PlayerReplicationInfo.Team != Victim.PlayerReplicationInfo.Team)
 		{	
 
-		class'Rainbow.RainbowKillMessageHelper'.static.Send(Instigator, Victim, 3);
+		class'Rainbow.RainbowKillMessageHelper'.static.Send(Instigator, Victim, 3, 'GreenProj');
 		Victim.level.game.Killed(Instigator, Victim, 'RainbowDisintegratedDamage');
 		Victim.HidePlayer();
 		Victim.Level.Game.DiscardInventory(Victim);
@@ -106,7 +106,7 @@ function Disintegrate(vector HitLocation,vector HitNormal, Pawn Victim)
 	   }
 	else
 	   {		
-		class'Rainbow.RainbowKillMessageHelper'.static.Send(Instigator, Victim, 3);
+		class'Rainbow.RainbowKillMessageHelper'.static.Send(Instigator, Victim, 3, 'GreenProj');
 		Victim.level.game.Killed(Instigator, Victim, 'RainbowDisintegratedDamage');
 		Victim.HidePlayer();
 		Victim.Level.Game.DiscardInventory(Victim);

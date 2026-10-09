@@ -11,7 +11,7 @@ static function string DeathMessage()
 
 static function ScoreKill(Pawn Killer, Pawn Other)
 {
-	class'Rainbow.RainbowKillMessageHelper'.static.Send(Killer, Other, 5);
+	class'Rainbow.RainbowKillMessageHelper'.static.Send(Killer, Other, 5, 'RainbowFatDamage');
 }
 
 defaultproperties

@@ -141,6 +141,7 @@ var Actor LockedTarget, NewTarget, OldTarget;
 
 var() globalconfig bool bRedeemer;
 var() globalconfig bool bRandomizeLoadedRockets;
+var() globalconfig bool bLogRainbowKillMessages;
 
 
 replication
@@ -1085,6 +1086,7 @@ defaultproperties
      bRecommendSplashDamage=True
      bRedeemer=True	
      bRandomizeLoadedRockets=True
+     bLogRainbowKillMessages=True
      FiringSpeed=1.000000
      FireOffset=(X=10.000000,Y=-5.000000,Z=-8.800000)
      AltProjectileClass=Class'Rainbow.Color_Grenade'

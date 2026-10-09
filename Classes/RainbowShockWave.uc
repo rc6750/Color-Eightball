@@ -74,7 +74,7 @@ simulated function Timer()
 			);
 
 			if (VictimPawn != None && VictimPawn != Instigator && OldHealth > 0 && VictimPawn.Health <= 0)
-				class'Rainbow.RainbowKillMessageHelper'.static.Send(Instigator, VictimPawn, 2);
+				class'Rainbow.RainbowKillMessageHelper'.static.Send(Instigator, VictimPawn, 2, 'RainbowShockWave');
 		}
 	}	
 	OldShockDistance = ShockSize*29;	
