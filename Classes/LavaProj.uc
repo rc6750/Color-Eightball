@@ -95,10 +95,13 @@ function LavaHit(vector HitLocation,vector HitNormal, Pawn Victim)
 function SpawnSplash()
 {
      local vector Start;
+     local LavaSplash SplashActor;
 
      NumSplash--;
      Start = SpawnPoint + 4 * VRand(); 
-     Spawn(class'LavaSplash',,,Start,Rotator(Start - Location));
+     SplashActor = Spawn(class'LavaSplash',,,Start,Rotator(Start - Location));
+     if (SplashActor != None)
+          SplashActor.Instigator = Instigator;
 }
 
 function SpawnTsunami()
@@ -106,6 +109,7 @@ function SpawnTsunami()
      local vector Start;
      local int splash;
      local int maxsplash; 
+     local LavaSplash SplashActor;
 
      splash = 0;
      maxsplash = 150;
@@ -114,7 +118,9 @@ function SpawnTsunami()
           {
                splash = splash + 1;
                Start = SpawnPoint + 4 * VRand(); 
-               Spawn(class'LavaSplash',,,Start,Rotator(Start - Location));
+               SplashActor = Spawn(class'LavaSplash',,,Start,Rotator(Start - Location));
+               if (SplashActor != None)
+                    SplashActor.Instigator = Instigator;
           If(splash >= maxsplash) 
           break; 
           }
@@ -183,7 +189,7 @@ defaultproperties
      Speed=1500.000000
      Damage=55.000000
      MomentumTransfer=70000
-     MyDamageType='RainbowDamage'
+      MyDamageType='RainbowLavaDamage'
      ImpactSound=Sound'UnrealShare.General.Expla02'
      ExplosionDecal=Class'Botpack.EnergyImpact'
      bNetTemporary=False

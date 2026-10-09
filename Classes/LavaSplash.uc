@@ -26,6 +26,12 @@ simulated function PostBeginPlay()
 function Timer()
 {
 	local LavaPuff f;
+	local Pawn P;
+	local float Radius;
+	local Pawn HitPawn[32];
+	local int HitHealth[32];
+	local int HitCount;
+	local int i;
 
 	f = spawn(class'LavaPuff',,,Location + SurfaceNormal*8); 
 	f.numBlobs = numBio;
@@ -35,7 +41,22 @@ function Timer()
 	if ( (Mover(Base) != None) && Mover(Base).bDamageTriggered )
 		Base.TakeDamage( Damage, instigator, Location, MomentumTransfer * Normal(Velocity), MyDamageType);
 	
-	HurtRadius(damage * Drawscale, FMin(250, DrawScale * 75), MyDamageType, MomentumTransfer * Drawscale, Location);
+	Radius = FMin(250, DrawScale * 75);
+
+	foreach RadiusActors(class'Pawn', P, Radius, Location)
+		if (P != None && P != Instigator && P.Health > 0 && HitCount < 32)
+		{
+			HitPawn[HitCount] = P;
+			HitHealth[HitCount] = P.Health;
+			HitCount++;
+		}
+
+	HurtRadius(damage * Drawscale, Radius, MyDamageType, MomentumTransfer * Drawscale, Location);
+
+	for (i = 0; i < HitCount; i++)
+		if (HitPawn[i] != None && HitHealth[i] > 0 && HitPawn[i].Health <= 0)
+			class'Rainbow.RainbowKillMessageHelper'.static.Send(Instigator, HitPawn[i], 6);
+
 	Destroy();	
 }
 
@@ -59,7 +80,7 @@ defaultproperties
 	bNetTemporary=False
 	LifeSpan=6.000000
 	Texture=Texture'Rainbow.Lava.Jlava'
-	MyDamageType=Rainbow
+	MyDamageType=RainbowLavaDamage
 	Skin=Texture'Rainbow.Lava.Jlava'
     MultiSkins(0)=Texture'Rainbow.Lava.Jlava'
 

@@ -86,7 +86,7 @@ defaultproperties
 	Speed=1200.000000
 	Damage=0.000000
 	MomentumTransfer=0
-	MyDamageType=RainbowDamage
+	MyDamageType=RainbowBlackHoleDamage
 
 	// black hole tuning
 	FieldLifeTime=3.000000
@@ -95,7 +95,7 @@ defaultproperties
 	SpinStrength=1100.000000
 	FinalBlastDamage=65.000000
 	FinalBlastRadius=320.000000
-	FinalDamageType=RainbowDamage
+	FinalDamageType=RainbowBlackHoleDamage
 
 	DrawType=DT_Sprite
 	Style=STY_Translucent

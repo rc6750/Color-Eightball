@@ -153,11 +153,17 @@ function Timer()
 
 function Collapse()
 {
+	local Pawn P;
+
 	if (Role != ROLE_Authority)
 		return;
 
 	// Final pop
 	HurtRadius(FinalBlastDamage, FinalBlastRadius, FinalDamageType, 0, Location);
+
+	foreach RadiusActors(class'Pawn', P, FinalBlastRadius, Location)
+		if (P != None && P != Instigator && P.Health <= 0)
+			class'Rainbow.RainbowKillMessageHelper'.static.Send(Instigator, P, 7);
 
 	// Quick visible cue (optional)
 	Spawn(class'Rainbow.BlackHoleShockWave',,, Location);

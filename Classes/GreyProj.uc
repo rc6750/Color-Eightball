@@ -69,7 +69,8 @@ function Freeze(vector HitLocation,vector HitNormal)
 		fb.AnimSequence = Victim.AnimSequence;
 		fb.AnimFrame = Victim.AnimFrame;	
 	
-		Victim.level.game.Killed(Instigator, Victim, 'freezed');
+		class'Rainbow.RainbowKillMessageHelper'.static.Send(Instigator, Victim, 4);
+		Victim.level.game.Killed(Instigator, Victim, 'RainbowFrozenDamage');
 		Victim.HidePlayer();
 		Victim.Level.Game.DiscardInventory(Victim);
 		Victim.Health = -1;
@@ -86,7 +87,8 @@ function Freeze(vector HitLocation,vector HitNormal)
 		fb.AnimSequence = Victim.AnimSequence;
 		fb.AnimFrame = Victim.AnimFrame;	
 	
-		Victim.level.game.Killed(Instigator, Victim, 'freezed');
+		class'Rainbow.RainbowKillMessageHelper'.static.Send(Instigator, Victim, 4);
+		Victim.level.game.Killed(Instigator, Victim, 'RainbowFrozenDamage');
 		Victim.HidePlayer();
 		Victim.Level.Game.DiscardInventory(Victim);
 		Victim.Health = -1;
@@ -135,7 +137,7 @@ defaultproperties
      MaxSpeed=1600.000000
      Damage=75.000000
      MomentumTransfer=70000
-     MyDamageType=RainbowDamage
+     MyDamageType=RainbowFrozenDamage
      ImpactSound=Sound'UnrealShare.General.BreakGlass'
      ExplosionDecal=Class'Botpack.EnergyImpact'
      bNetTemporary=False

@@ -21,7 +21,7 @@ bSizable = False;
 function Created()
 {
 	Super.Created();
-	SetSize(220, 140);
+	SetSize(240, 155);
 	WinLeft = (Root.WinWidth - WinWidth) / 2;
 	WinTop = (Root.WinHeight - WinHeight) / 2;
 }

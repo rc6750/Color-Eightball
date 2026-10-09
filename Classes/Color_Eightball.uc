@@ -140,6 +140,7 @@ var bool bFireLoad,bTightWad, bInstantRocket, bAlwaysInstant, bClientDone, bRota
 var Actor LockedTarget, NewTarget, OldTarget;
 
 var() globalconfig bool bRedeemer;
+var() globalconfig bool bRandomizeLoadedRockets;
 
 
 replication
@@ -892,19 +893,37 @@ state FireRockets
 		return false;
 	}
 
+	function class<Projectile> PickRainbowProjectile()
+	{
+		local int Choice;
+
+		if ( bRedeemer )
+			Choice = Rand(9);
+		else
+			Choice = Rand(8);
+
+		switch (Choice)
+		{
+			case 0: return class'Rainbow.BlueProj';
+			case 1: return class'Rainbow.GreenProj';
+			case 2: return class'Rainbow.GoldProj';
+			case 3: return class'Rainbow.GreyProj';
+			case 4: return class'Rainbow.PurpleProj';
+			case 5: return class'Rainbow.LavaProj';
+			case 6: return class'Rainbow.RandomTeleportProj';
+			case 7: return class'Rainbow.BlackHoleProj';
+			case 8: return class'Rainbow.RedProj';
+		}
+
+		return class'Rainbow.BlueProj';
+	}
+
 	function BeginState()
 	{
 		local vector FireLocation, StartLoc, X,Y,Z;
 		local rotator FireRot, RandRot;
-		local BlueProj bsp;
-		local GreenProj gsp;
-		local RedProj rsp;
-		local GreyProj grsp;
-		local GoldProj gosp;
-		local PurpleProj psp;
-		local LavaProj lsp;
-		local RandomTeleportProj randsp;
-		local BlackHoleProj bhsp;
+		local class<Projectile> RocketClass;
+		local Projectile rp;
 		local ColorSeekingRocket s;
 		local Color_grenade g;
 		local float Angle, RocketRad;
@@ -912,7 +931,6 @@ state FireRockets
 		local PlayerPawn PlayerOwner;
 		local int DupRockets;
 		local bool bMultiRockets;
-		local int i;
       
 		PawnOwner = Pawn(Owner);
 		if ( PawnOwner == None )
@@ -960,16 +978,10 @@ state FireRockets
 		RocketRad = 4;
 		if (bTightWad || !bFireLoad) RocketRad=7;
 		bMultiRockets = ( RocketsLoaded > 1 );
-		//log(bRedeemer);
-		if ( bRedeemer ) i = rand(9);	
-		if ( !bRedeemer ) i = rand(8);
-		//log (i);	
-		//i = 7;
+		if ( bFireLoad && !bRandomizeLoadedRockets )
+			RocketClass = PickRainbowProjectile();
 		
-		switch(i)
-		{
-			case 0:
-		While ( RocketsLoaded > 0 )
+		while ( RocketsLoaded > 0 )
 		{
 			if ( bMultiRockets )
 				Firelocation = StartLoc - (Sin(Angle)*RocketRad - 7.5)*Y + (Cos(Angle)*RocketRad - 7)*Z - X * 4 * FRand();
@@ -989,17 +1001,21 @@ state FireRockets
 				if ( LockedTarget != None )
 				{
 					s = Spawn( class 'Rainbow.ColorSeekingRocket',, '', FireLocation,FireRot);
-					s.Seeking = LockedTarget;
-					s.NumExtraRockets = DupRockets;					
-					if ( Angle > 0 )
-						s.Velocity *= (0.9 + 0.2 * FRand());			
+					if (s != None)
+					{
+						s.Seeking = LockedTarget;
+						s.NumExtraRockets = DupRockets;
+						if ( Angle > 0 )
+							s.Velocity *= (0.9 + 0.2 * FRand());
+					}
 				}
 				else 
 				{
-					bsp = Spawn( class'Rainbow.BlueProj',, '', FireLocation,FireRot);
-					bsp.NumExtraRockets = DupRockets;
-					if ( Angle > 0 )
-						bsp.Velocity *= (0.9 + 0.2 * FRand());	
+					if ( bRandomizeLoadedRockets )
+						RocketClass = PickRainbowProjectile();
+					rp = Spawn(RocketClass,, '', FireLocation,FireRot);
+					if ( rp != None && Angle > 0 )
+						rp.Velocity *= (0.9 + 0.2 * FRand());
 				}
 			}
 			else 
@@ -1020,432 +1036,6 @@ state FireRockets
 
 			Angle += 1.0484; //2*3.1415/6;
 			RocketsLoaded--;
-		}
-		case 1:
-		While ( RocketsLoaded > 0 )
-		{
-			if ( bMultiRockets )
-				Firelocation = StartLoc - (Sin(Angle)*RocketRad - 7.5)*Y + (Cos(Angle)*RocketRad - 7)*Z - X * 4 * FRand();
-			else
-				FireLocation = StartLoc;
-			if (bFireLoad)
-			{
-				if ( Angle > 0 )
-				{
-					if ( Angle < 3 && !bTightWad)
-						FireRot.Yaw = AdjustedAim.Yaw - Angle * 600;
-					else if ( Angle > 3.5 && !bTightWad)
-						FireRot.Yaw = AdjustedAim.Yaw + (Angle - 3)  * 600;
-					else
-						FireRot.Yaw = AdjustedAim.Yaw;
-				}
-				if ( LockedTarget != None )
-				{
-					s = Spawn( class 'Rainbow.ColorSeekingRocket',, '', FireLocation,FireRot);
-					s.Seeking = LockedTarget;
-					s.NumExtraRockets = DupRockets;					
-					if ( Angle > 0 )
-						s.Velocity *= (0.9 + 0.2 * FRand());			
-				}
-				else 
-				{
-					gsp = Spawn( class'Rainbow.GreenProj',, '', FireLocation,FireRot);
-					gsp.NumExtraRockets = DupRockets;
-					if ( Angle > 0 )
-						gsp.Velocity *= (0.9 + 0.2 * FRand());	
-				}
-			}
-			else 
-			{
-				g = Spawn( class 'Rainbow.Color_Grenade',, '', FireLocation,AdjustedAim);
-				if (g != None)
-				{
-					g.NumExtraGrenades = DupRockets;
-					if ( DupRockets > 0 )
-					{
-						RandRot.Pitch = FRand() * 1500 - 750;
-						RandRot.Yaw = FRand() * 1500 - 750;
-						RandRot.Roll = FRand() * 1500 - 750;
-						g.Velocity = g.Velocity >> RandRot;
-					}
-				}
-			}
-
-			Angle += 1.0484; //2*3.1415/6;
-			RocketsLoaded--;
-		}
-		case 2:
-		While ( RocketsLoaded > 0 )
-		{
-			if ( bMultiRockets )
-				Firelocation = StartLoc - (Sin(Angle)*RocketRad - 7.5)*Y + (Cos(Angle)*RocketRad - 7)*Z - X * 4 * FRand();
-			else
-				FireLocation = StartLoc;
-			if (bFireLoad)
-			{
-				if ( Angle > 0 )
-				{
-					if ( Angle < 3 && !bTightWad)
-						FireRot.Yaw = AdjustedAim.Yaw - Angle * 600;
-					else if ( Angle > 3.5 && !bTightWad)
-						FireRot.Yaw = AdjustedAim.Yaw + (Angle - 3)  * 600;
-					else
-						FireRot.Yaw = AdjustedAim.Yaw;
-				}
-				if ( LockedTarget != None )
-				{
-					s = Spawn( class 'Rainbow.ColorSeekingRocket',, '', FireLocation,FireRot);
-					s.Seeking = LockedTarget;
-					s.NumExtraRockets = DupRockets;					
-					if ( Angle > 0 )
-						s.Velocity *= (0.9 + 0.2 * FRand());			
-				}
-				else 
-				{
-					gosp = Spawn( class'Rainbow.GoldProj',, '', FireLocation,FireRot);
-					gosp.NumExtraRockets = DupRockets;
-					if ( Angle > 0 )
-						gosp.Velocity *= (0.9 + 0.2 * FRand());	
-				}
-			}
-			else 
-			{
-				g = Spawn( class 'Rainbow.Color_Grenade',, '', FireLocation,AdjustedAim);
-				if (g != None)
-				{
-					g.NumExtraGrenades = DupRockets;
-					if ( DupRockets > 0 )
-					{
-						RandRot.Pitch = FRand() * 1500 - 750;
-						RandRot.Yaw = FRand() * 1500 - 750;
-						RandRot.Roll = FRand() * 1500 - 750;
-						g.Velocity = g.Velocity >> RandRot;
-					}
-				}
-			}
-
-			Angle += 1.0484; //2*3.1415/6;
-			RocketsLoaded--;
-		}
-		case 3:
-		While ( RocketsLoaded > 0 )
-		{
-			if ( bMultiRockets )
-				Firelocation = StartLoc - (Sin(Angle)*RocketRad - 7.5)*Y + (Cos(Angle)*RocketRad - 7)*Z - X * 4 * FRand();
-			else
-				FireLocation = StartLoc;
-			if (bFireLoad)
-			{
-				if ( Angle > 0 )
-				{
-					if ( Angle < 3 && !bTightWad)
-						FireRot.Yaw = AdjustedAim.Yaw - Angle * 600;
-					else if ( Angle > 3.5 && !bTightWad)
-						FireRot.Yaw = AdjustedAim.Yaw + (Angle - 3)  * 600;
-					else
-						FireRot.Yaw = AdjustedAim.Yaw;
-				}
-				if ( LockedTarget != None )
-				{
-					s = Spawn( class 'Rainbow.ColorSeekingRocket',, '', FireLocation,FireRot);
-					s.Seeking = LockedTarget;
-					s.NumExtraRockets = DupRockets;					
-					if ( Angle > 0 )
-						s.Velocity *= (0.9 + 0.2 * FRand());			
-				}
-				else 
-				{
-					grsp = Spawn( class'Rainbow.GreyProj',, '', FireLocation,FireRot);
-					grsp.NumExtraRockets = DupRockets;
-					if ( Angle > 0 )
-						grsp.Velocity *= (0.9 + 0.2 * FRand());	
-				}
-			}
-			else 
-			{
-				g = Spawn( class 'Rainbow.Color_Grenade',, '', FireLocation,AdjustedAim);
-				if (g != None)
-				{
-					g.NumExtraGrenades = DupRockets;
-					if ( DupRockets > 0 )
-					{
-						RandRot.Pitch = FRand() * 1500 - 750;
-						RandRot.Yaw = FRand() * 1500 - 750;
-						RandRot.Roll = FRand() * 1500 - 750;
-						g.Velocity = g.Velocity >> RandRot;
-					}
-				}
-			}
-
-			Angle += 1.0484; //2*3.1415/6;
-			RocketsLoaded--;
-		}
-		case 4:
-		While ( RocketsLoaded > 0 )
-		{
-			if ( bMultiRockets )
-				Firelocation = StartLoc - (Sin(Angle)*RocketRad - 7.5)*Y + (Cos(Angle)*RocketRad - 7)*Z - X * 4 * FRand();
-			else
-				FireLocation = StartLoc;
-			if (bFireLoad)
-			{
-				if ( Angle > 0 )
-				{
-					if ( Angle < 3 && !bTightWad)
-						FireRot.Yaw = AdjustedAim.Yaw - Angle * 600;
-					else if ( Angle > 3.5 && !bTightWad)
-						FireRot.Yaw = AdjustedAim.Yaw + (Angle - 3)  * 600;
-					else
-						FireRot.Yaw = AdjustedAim.Yaw;
-				}
-				if ( LockedTarget != None )
-				{
-					s = Spawn( class 'Rainbow.ColorSeekingRocket',, '', FireLocation,FireRot);
-					s.Seeking = LockedTarget;
-					s.NumExtraRockets = DupRockets;					
-					if ( Angle > 0 )
-						s.Velocity *= (0.9 + 0.2 * FRand());			
-				}
-				else 
-				{
-					psp = Spawn( class'Rainbow.PurpleProj',, '', FireLocation,FireRot);
-					psp.NumExtraRockets = DupRockets;
-					if ( Angle > 0 )
-						psp.Velocity *= (0.9 + 0.2 * FRand());	
-				}
-			}
-			else 
-			{
-				g = Spawn( class 'Rainbow.Color_Grenade',, '', FireLocation,AdjustedAim);
-				if (g != None)
-				{
-					g.NumExtraGrenades = DupRockets;
-					if ( DupRockets > 0 )
-					{
-						RandRot.Pitch = FRand() * 1500 - 750;
-						RandRot.Yaw = FRand() * 1500 - 750;
-						RandRot.Roll = FRand() * 1500 - 750;
-						g.Velocity = g.Velocity >> RandRot;
-					}
-				}
-			}
-
-			Angle += 1.0484; //2*3.1415/6;
-			RocketsLoaded--;
-		}
-		case 5:
-		While ( RocketsLoaded > 0 )
-		{
-			if ( bMultiRockets )
-				Firelocation = StartLoc - (Sin(Angle)*RocketRad - 7.5)*Y + (Cos(Angle)*RocketRad - 7)*Z - X * 4 * FRand();
-			else
-				FireLocation = StartLoc;
-			if (bFireLoad)
-			{
-				if ( Angle > 0 )
-				{
-					if ( Angle < 3 && !bTightWad)
-						FireRot.Yaw = AdjustedAim.Yaw - Angle * 600;
-					else if ( Angle > 3.5 && !bTightWad)
-						FireRot.Yaw = AdjustedAim.Yaw + (Angle - 3)  * 600;
-					else
-						FireRot.Yaw = AdjustedAim.Yaw;
-				}
-				if ( LockedTarget != None )
-				{
-					s = Spawn( class 'Rainbow.ColorSeekingRocket',, '', FireLocation,FireRot);
-					s.Seeking = LockedTarget;
-					s.NumExtraRockets = DupRockets;					
-					if ( Angle > 0 )
-						s.Velocity *= (0.9 + 0.2 * FRand());			
-				}
-				else 
-				{
-					lsp = Spawn( class'Rainbow.LavaProj',, '', FireLocation,FireRot);
-					lsp.NumExtraRockets = DupRockets;
-					if ( Angle > 0 )
-						lsp.Velocity *= (0.9 + 0.2 * FRand());	
-				}
-			}
-			else 
-			{
-				g = Spawn( class 'Rainbow.Color_Grenade',, '', FireLocation,AdjustedAim);
-				if (g != None)
-				{
-					g.NumExtraGrenades = DupRockets;
-					if ( DupRockets > 0 )
-					{
-						RandRot.Pitch = FRand() * 1500 - 750;
-						RandRot.Yaw = FRand() * 1500 - 750;
-						RandRot.Roll = FRand() * 1500 - 750;
-						g.Velocity = g.Velocity >> RandRot;
-					}
-				}
-			}
-
-			Angle += 1.0484; //2*3.1415/6;
-			RocketsLoaded--;
-		}
-		case 6:
-		While ( RocketsLoaded > 0 )
-		{
-			if ( bMultiRockets )
-				Firelocation = StartLoc - (Sin(Angle)*RocketRad - 7.5)*Y + (Cos(Angle)*RocketRad - 7)*Z - X * 4 * FRand();
-			else
-				FireLocation = StartLoc;
-			if (bFireLoad)
-			{
-				if ( Angle > 0 )
-				{
-					if ( Angle < 3 && !bTightWad)
-						FireRot.Yaw = AdjustedAim.Yaw - Angle * 600;
-					else if ( Angle > 3.5 && !bTightWad)
-						FireRot.Yaw = AdjustedAim.Yaw + (Angle - 3)  * 600;
-					else
-						FireRot.Yaw = AdjustedAim.Yaw;
-				}
-				if ( LockedTarget != None )
-				{
-					s = Spawn( class 'Rainbow.ColorSeekingRocket',, '', FireLocation,FireRot);
-					s.Seeking = LockedTarget;
-					s.NumExtraRockets = DupRockets;					
-					if ( Angle > 0 )
-						s.Velocity *= (0.9 + 0.2 * FRand());			
-				}
-				else 
-				{
-					randsp = Spawn( class'Rainbow.RandomTeleportProj',, '', FireLocation,FireRot);
-					randsp.NumExtraRockets = DupRockets;
-					if ( Angle > 0 )
-						randsp.Velocity *= (0.9 + 0.2 * FRand());	
-				}
-			}
-			else 
-			{
-				g = Spawn( class 'Rainbow.Color_Grenade',, '', FireLocation,AdjustedAim);
-				if (g != None)
-				{
-					g.NumExtraGrenades = DupRockets;
-					if ( DupRockets > 0 )
-					{
-						RandRot.Pitch = FRand() * 1500 - 750;
-						RandRot.Yaw = FRand() * 1500 - 750;
-						RandRot.Roll = FRand() * 1500 - 750;
-						g.Velocity = g.Velocity >> RandRot;
-					}
-				}
-			}
-
-			Angle += 1.0484; //2*3.1415/6;
-			RocketsLoaded--;
-		}
-		case 7:
-		While ( RocketsLoaded > 0 )
-		{
-			if ( bMultiRockets )
-				Firelocation = StartLoc - (Sin(Angle)*RocketRad - 7.5)*Y + (Cos(Angle)*RocketRad - 7)*Z - X * 4 * FRand();
-			else
-				FireLocation = StartLoc;
-			if (bFireLoad)
-			{
-				if ( Angle > 0 )
-				{
-					if ( Angle < 3 && !bTightWad)
-						FireRot.Yaw = AdjustedAim.Yaw - Angle * 600;
-					else if ( Angle > 3.5 && !bTightWad)
-						FireRot.Yaw = AdjustedAim.Yaw + (Angle - 3)  * 600;
-					else
-						FireRot.Yaw = AdjustedAim.Yaw;
-				}
-				if ( LockedTarget != None )
-				{
-					s = Spawn( class 'Rainbow.ColorSeekingRocket',, '', FireLocation,FireRot);
-					s.Seeking = LockedTarget;
-					s.NumExtraRockets = DupRockets;					
-					if ( Angle > 0 )
-						s.Velocity *= (0.9 + 0.2 * FRand());			
-				}
-				else 
-				{
-					bhsp = Spawn( class'Rainbow.BlackHoleProj',, '', FireLocation,FireRot);
-					bhsp.NumExtraRockets = DupRockets;
-					if ( Angle > 0 )
-						bhsp.Velocity *= (0.9 + 0.2 * FRand());	
-				}
-			}
-			else 
-			{
-				g = Spawn( class 'Rainbow.Color_Grenade',, '', FireLocation,AdjustedAim);
-				if (g != None)
-				{
-					g.NumExtraGrenades = DupRockets;
-					if ( DupRockets > 0 )
-					{
-						RandRot.Pitch = FRand() * 1500 - 750;
-						RandRot.Yaw = FRand() * 1500 - 750;
-						RandRot.Roll = FRand() * 1500 - 750;
-						g.Velocity = g.Velocity >> RandRot;
-					}
-				}
-			}
-
-			Angle += 1.0484; //2*3.1415/6;
-			RocketsLoaded--;
-		}
-		case 8:
-		While ( RocketsLoaded > 0 )
-		{
-			if ( bMultiRockets )
-				Firelocation = StartLoc - (Sin(Angle)*RocketRad - 7.5)*Y + (Cos(Angle)*RocketRad - 7)*Z - X * 4 * FRand();
-			else
-				FireLocation = StartLoc;
-			if (bFireLoad)
-			{
-				if ( Angle > 0 )
-				{
-					if ( Angle < 3 && !bTightWad)
-						FireRot.Yaw = AdjustedAim.Yaw - Angle * 600;
-					else if ( Angle > 3.5 && !bTightWad)
-						FireRot.Yaw = AdjustedAim.Yaw + (Angle - 3)  * 600;
-					else
-						FireRot.Yaw = AdjustedAim.Yaw;
-				}
-				if ( LockedTarget != None )
-				{
-					s = Spawn( class 'Rainbow.ColorSeekingRocket',, '', FireLocation,FireRot);
-					s.Seeking = LockedTarget;
-					s.NumExtraRockets = DupRockets;					
-					if ( Angle > 0 )
-						s.Velocity *= (0.9 + 0.2 * FRand());			
-				}
-				else 
-				{
-					rsp = Spawn( class'Rainbow.RedProj',, '', FireLocation,FireRot);
-					rsp.NumExtraRockets = DupRockets;
-					if ( Angle > 0 )
-						rsp.Velocity *= (0.9 + 0.2 * FRand());	
-				}
-			}
-			else 
-			{
-				g = Spawn( class 'Rainbow.Color_Grenade',, '', FireLocation,AdjustedAim);
-				if (g != None)
-				{
-					g.NumExtraGrenades = DupRockets;
-					if ( DupRockets > 0 )
-					{
-						RandRot.Pitch = FRand() * 1500 - 750;
-						RandRot.Yaw = FRand() * 1500 - 750;
-						RandRot.Roll = FRand() * 1500 - 750;
-						g.Velocity = g.Velocity >> RandRot;
-					}
-				}
-			}
-
-			Angle += 1.0484; //2*3.1415/6;
-			RocketsLoaded--;
-		}
-		break;
 		}
 		bTightWad=False;
 		bRotated = false;
@@ -1494,6 +1084,7 @@ defaultproperties
      bSplashDamage=True
      bRecommendSplashDamage=True
      bRedeemer=True	
+     bRandomizeLoadedRockets=True
      FiringSpeed=1.000000
      FireOffset=(X=10.000000,Y=-5.000000,Z=-8.800000)
      AltProjectileClass=Class'Rainbow.Color_Grenade'

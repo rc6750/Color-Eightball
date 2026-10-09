@@ -116,6 +116,7 @@ function CreditKill()
 	if (Killer == None)
 		Killer = Victim;
 
+	class'Rainbow.RainbowKillMessageHelper'.static.Send(Killer, Victim, 8);
 	Victim.Died(Killer, CreditDamageType, Victim.Location);
 	Destroy();
 }

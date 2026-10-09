@@ -31,11 +31,22 @@ auto state Flying
 
 function Explode(vector HitLocation, vector HitNormal)
 	{
+		local Pawn P;
+		local RainbowShockWave ShockWave;
+
 		if ( Role < ROLE_Authority )
 			return;
 
-		HurtRadius(Damage,300.0, 'RainbowDamage', MomentumTransfer, HitLocation );	 		 		
- 		spawn(class'RainbowShockWave',,,HitLocation+ HitNormal*16);	
+		HurtRadius(Damage,300.0, 'RainbowRedeemerDamage', MomentumTransfer, HitLocation );
+
+		foreach RadiusActors(class'Pawn', P, 300.0, HitLocation)
+			if (P != None && P != Instigator && P.Health <= 0)
+				class'Rainbow.RainbowKillMessageHelper'.static.Send(Instigator, P, 2);
+
+		ShockWave = spawn(class'RainbowShockWave',,,HitLocation+ HitNormal*16);
+		if (ShockWave != None)
+			ShockWave.Instigator = Instigator;
+
 		RemoteRole = ROLE_SimulatedProxy;	 		 		
  		Destroy();
 	}
@@ -46,7 +57,7 @@ defaultproperties
      speed=1500.000000
      Damage=1000.000000
      MomentumTransfer=70000
-     MyDamageType=RainbowDamage
+     MyDamageType=RainbowRedeemerDamage
      ImpactSound=Sound'UnrealShare.General.Expla02'
      ExplosionDecal=Class'Botpack.NuclearMark'
      bNetTemporary=False

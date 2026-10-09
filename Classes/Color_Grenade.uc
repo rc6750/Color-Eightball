@@ -118,7 +118,14 @@ simulated function HitWall( vector HitNormal, actor Wall )
 ///////////////////////////////////////////////////////
 function BlowUp(vector HitLocation)
 {
-	HurtRadius(damage, 200, 'RainbowDamage', MomentumTransfer, HitLocation);
+	local Pawn P;
+
+	HurtRadius(damage, 200, 'RainbowRocketDamage', MomentumTransfer, HitLocation);
+
+	foreach RadiusActors(class'Pawn', P, 200, HitLocation)
+		if (P != None && P != Instigator && P.Health <= 0)
+			class'Rainbow.RainbowKillMessageHelper'.static.Send(Instigator, P, 1);
+
 	MakeNoise(1.0);
 }
 
@@ -142,7 +149,7 @@ defaultproperties
      MaxSpeed=1000.000000
      Damage=80.000000
      MomentumTransfer=50000
-     MyDamageType=RainbowDamage
+     MyDamageType=RainbowRocketDamage
      ImpactSound=Sound'UnrealShare.Eightball.GrenadeFloor'
      ExplosionDecal=Class'Botpack.BlastMark'
      Physics=PHYS_Falling

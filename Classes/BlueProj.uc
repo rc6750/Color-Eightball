@@ -30,7 +30,14 @@ auto state Flying
 
 function BlowUp(vector HitLocation)
 	{
-		HurtRadius(Damage,220.0, 'RainbowDamage', MomentumTransfer, HitLocation );
+		local Pawn P;
+
+		HurtRadius(Damage,220.0, 'RainbowRocketDamage', MomentumTransfer, HitLocation );
+
+		foreach RadiusActors(class'Pawn', P, 220.0, HitLocation)
+			if (P != None && P != Instigator && P.Health <= 0)
+				class'Rainbow.RainbowKillMessageHelper'.static.Send(Instigator, P, 1);
+
 		MakeNoise(1.0);
 	}
 
@@ -55,7 +62,7 @@ defaultproperties
      speed=1500.000000
      Damage=55.000000
      MomentumTransfer=70000
-     MyDamageType=RainbowDamage
+     MyDamageType=RainbowRocketDamage
      ImpactSound=Sound'UnrealShare.General.Expla02'
      ExplosionDecal=Class'Botpack.EnergyImpact'
      bNetTemporary=False

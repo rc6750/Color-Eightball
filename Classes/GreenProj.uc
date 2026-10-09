@@ -94,7 +94,8 @@ function Disintegrate(vector HitLocation,vector HitNormal, Pawn Victim)
 	   if (Instigator.PlayerReplicationInfo.Team != Victim.PlayerReplicationInfo.Team)
 		{	
 
-		Victim.level.game.Killed(Instigator, Victim, 'disintegrated');
+		class'Rainbow.RainbowKillMessageHelper'.static.Send(Instigator, Victim, 3);
+		Victim.level.game.Killed(Instigator, Victim, 'RainbowDisintegratedDamage');
 		Victim.HidePlayer();
 		Victim.Level.Game.DiscardInventory(Victim);
 		Victim.Health = -1;
@@ -105,7 +106,8 @@ function Disintegrate(vector HitLocation,vector HitNormal, Pawn Victim)
 	   }
 	else
 	   {		
- 		Victim.level.game.Killed(Instigator, Victim, 'disintegrated');
+		class'Rainbow.RainbowKillMessageHelper'.static.Send(Instigator, Victim, 3);
+		Victim.level.game.Killed(Instigator, Victim, 'RainbowDisintegratedDamage');
 		Victim.HidePlayer();
 		Victim.Level.Game.DiscardInventory(Victim);
 		Victim.Health = -1;
@@ -195,7 +197,7 @@ defaultproperties
      MaxSpeed=1600.000000
      Damage=455.000000
      MomentumTransfer=70000
-     MyDamageType=RainbowDamage
+     MyDamageType=RainbowDisintegratedDamage
      MiscSound=Sound'UnrealShare.Tentacle.splat2tn'
      ExplosionDecal=Class'Botpack.EnergyImpact'
      bNetTemporary=False

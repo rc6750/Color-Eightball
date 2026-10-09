@@ -114,7 +114,7 @@ function TeleportPawnRandom(Pawn P)
 	{
 		TDC = Spawn(class'Rainbow.TeleportDeathCredit', Instigator);
 		if (TDC != None)
-			TDC.Init(P, Instigator, 8.0, 'teleported');
+			TDC.Init(P, Instigator, 8.0, 'RainbowTeleportDamage');
 	}	
 
 	NewRot = P.Rotation;
@@ -243,7 +243,7 @@ defaultproperties
 	Speed=1500.000000
 	Damage=55.000000
 	MomentumTransfer=70000
-	MyDamageType=RainbowDamage
+	MyDamageType=RainbowTeleportDamage
 	ImpactSound=Sound'UnrealShare.General.Expla02'
 	ExplosionDecal=Class'Botpack.EnergyImpact'
 	bNetTemporary=False

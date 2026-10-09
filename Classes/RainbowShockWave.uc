@@ -11,6 +11,8 @@ simulated function Timer()
 	local actor Victims;
 	local float dist, MoScale;
 	local vector dir;
+	local Pawn VictimPawn;
+	local int OldHealth;
 
 	ShockSize =  13 * (Default.LifeSpan - LifeSpan) + 3.5/(LifeSpan/Default.LifeSpan+0.05);
 	if ( Level.NetMode != NM_DedicatedServer )
@@ -36,7 +38,7 @@ simulated function Timer()
 							Instigator, 
 							Victims.Location - 0.5 * (Victims.CollisionHeight + Victims.CollisionRadius) * dir,
 							(1000 * dir),
-							'RainbowDamage'
+							'RainbowRedeemerDamage'
 						);
 					}
 				}	
@@ -52,8 +54,14 @@ simulated function Timer()
 		if (dist> OldShockDistance || (dir dot Victims.Velocity < 0))
 		{
 			MoScale = FMax(0, 1100 - 1.1 * Dist);
+			VictimPawn = None;
+			OldHealth = 0;
 			if ( Victims.bIsPawn )
+			{
+				VictimPawn = Pawn(Victims);
+				OldHealth = VictimPawn.Health;
 				Pawn(Victims).AddVelocity(dir * (MoScale + 20));
+			}
 			else
 				Victims.Velocity = Victims.Velocity + dir * (MoScale + 20);	
 			Victims.TakeDamage
@@ -62,8 +70,11 @@ simulated function Timer()
 				Instigator, 
 				Victims.Location - 0.5 * (Victims.CollisionHeight + Victims.CollisionRadius) * dir,
 				(1000 * dir),
-				'RainbowDamage'
+				'RainbowRedeemerDamage'
 			);
+
+			if (VictimPawn != None && VictimPawn != Instigator && OldHealth > 0 && VictimPawn.Health <= 0)
+				class'Rainbow.RainbowKillMessageHelper'.static.Send(Instigator, VictimPawn, 2);
 		}
 	}	
 	OldShockDistance = ShockSize*29;	

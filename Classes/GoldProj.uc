@@ -78,6 +78,7 @@ ignores ProcessTouch, HitWall;
 	  				else
 	  				{
 						Victim.TakeDamage(1000, Killer,Victim.Location,(MomentumTransfer * Normal(Velocity)), MyDamageType);
+						class'Rainbow.RainbowKillMessageHelper'.static.Send(Killer, Victim, 5);
 		    				Victim.Level.Game.DiscardInventory(Victim);
 						Victim.PlaySound( Victim.Die, SLOT_Talk );
 						Victim.ReceiveLocalizedMessage( class'Rainbow.FatExplosion' );	
@@ -111,6 +112,7 @@ ignores ProcessTouch, HitWall;
 	  			else
 	  			{
 					Victim.TakeDamage(1000, Killer,Victim.Location,(MomentumTransfer * Normal(Velocity)), MyDamageType);
+					class'Rainbow.RainbowKillMessageHelper'.static.Send(Killer, Victim, 5);
 				     Victim.Level.Game.DiscardInventory(Victim);
 					Victim.PlaySound( Victim.Die, SLOT_Talk );
 					Victim.ReceiveLocalizedMessage( class'Rainbow.FatExplosion' );	
@@ -150,7 +152,7 @@ defaultproperties
      MaxSpeed=1700.000000
      Damage=55.000000
      MomentumTransfer=70000
-     MyDamageType=RainbowDamage
+     MyDamageType=RainbowFatDamage
      ImpactSound=Sound'UnrealShare.General.Expla02'
      ExplosionDecal=Class'Botpack.EnergyImpact'
      bNetTemporary=False
