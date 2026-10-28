@@ -18,6 +18,8 @@ replication
 simulated function InitRadius(float NewRadius)
 {
 	TeleportRadius = NewRadius;
+	DrawScale = TeleportRadius / ShockWaveRadiusAtUnitScale;
+	ScaleGlow = 1.45;
 }
 
 simulated function Tick(float DeltaTime)
@@ -27,11 +29,11 @@ simulated function Tick(float DeltaTime)
 	if (Level.NetMode == NM_DedicatedServer || TeleportRadius <= 0)
 		return;
 
-	// Expand to the same boundary used by RadiusActors, then fade away.
+	// Begin at the same boundary used by RadiusActors, then collapse inward.
 	Progress = 1.0 - (LifeSpan / Default.LifeSpan);
-	DrawScale = (TeleportRadius / ShockWaveRadiusAtUnitScale) * Progress;
-	// Keep the boundary readable throughout the longer expansion and fade-out.
-	ScaleGlow = 1.45 - (0.70 * Progress);
+	DrawScale = (TeleportRadius / ShockWaveRadiusAtUnitScale) * (1.0 - Progress);
+	// Fade as the ring closes so it disappears cleanly at the impact point.
+	ScaleGlow = 1.45 * (1.0 - Progress);
 	AmbientGlow = 255;
 }
 

@@ -14,7 +14,7 @@ class GreyTeleEffect extends Effects;
 #exec MESHMAP SETTEXTURE MESHMAP=GreyTele NUM=1 TEXTURE=Grey_01
 
 
-function PostBeginPlay()
+simulated function PostBeginPlay()
 {
 	Super.PostBeginPlay();
 	LoopAnim('GreyTeleport', 2.0, 0.0);
@@ -22,7 +22,9 @@ function PostBeginPlay()
 
 defaultproperties
 {
-     RemoteRole=ROLE_None
+     bAlwaysRelevant=True
+     RemoteRole=ROLE_SimulatedProxy
+     bNetTemporary=True
      LifeSpan=1.000000
      DrawType=DT_Mesh
      Style=STY_Translucent

@@ -54,7 +54,6 @@ simulated function HitWall(vector HitNormal, actor Wall)
 simulated function Explode(vector HitLocation, vector HitNormal)
 {
 	local Pawn P;
-	local Greyteleeffect s;
 	local TeleportRadiusEffect RadiusEffect;
 
 
@@ -74,10 +73,6 @@ simulated function Explode(vector HitLocation, vector HitNormal)
 			if (P != None && P.Health > 0 && !P.bDeleteMe)
 				TeleportPawnRandom(P);
 		}
-			s = spawn(class'Rainbow.Greyteleeffect',,,HitLocation + HitNormal*16);	
-			if (s != None)
- 				s.RemoteRole = ROLE_SimulatedProxy;	
-		
 	}
 	else
 	{
@@ -87,9 +82,6 @@ simulated function Explode(vector HitLocation, vector HitNormal)
 			if (P != None && P.Health > 0 && !P.bDeleteMe)
 				TeleportPawnRandom(P);
 		}
-			s = spawn(class'Rainbow.Greyteleeffect',,,HitLocation + HitNormal*16);	
-			if (s != None)
- 				s.RemoteRole = ROLE_SimulatedProxy;	
 	}
 
 	Destroy();
@@ -99,7 +91,7 @@ simulated function Explode(vector HitLocation, vector HitNormal)
 
 function TeleportPawnRandom(Pawn P)
 {
-	local vector Dest;
+	local vector Dest, SourceLoc;
 	local rotator NewRot;
 	local PlayerPawn PP;
 	local FallCamHelper F;
@@ -111,9 +103,15 @@ function TeleportPawnRandom(Pawn P)
 	if (!FindRandomTeleportSpot(P, Dest))
 		return;
 
+	SourceLoc = P.Location;
+
 	// Actually move (SetLocation returns false if encroaching)
 	if (!P.SetLocation(Dest))
 		return;
+
+	// Show both endpoints only after this pawn successfully reached its destination.
+	Spawn(class'Rainbow.GreyTeleEffect', P,, SourceLoc);
+	Spawn(class'Rainbow.GreyTeleEffect', P,, P.Location);
 
 	// Track post-teleport environmental death and credit it to the shooter
 	if (Instigator != None && P != None && P != Instigator && P.Health > 0)
