@@ -8,9 +8,81 @@ class RainbowRocket expands Mutator;
 function PostBeginPlay()
 {
 	Super.PostBeginPlay();
+	class'Rainbow.Color_Eightball'.static.ResetGlobalTestProjectileMode();
 
 	if (Level.Game != None)
 		Level.Game.RegisterMessageMutator(Self);
+}
+
+function SetGlobalRainbowTestMode(PlayerPawn Sender, int RequestedMode, string ModeName, string ShortcutName)
+{
+	if (Sender == None)
+		return;
+
+	if (class'Rainbow.Color_Eightball'.static.ToggleGlobalTestProjectileMode(RequestedMode) == 0)
+		Sender.ClientMessage("Rainbow test: random rockets restored for everyone.");
+	else
+		Sender.ClientMessage("Rainbow test: everyone fires " $ ModeName $ " only. Press " $ ShortcutName $ " again for random.");
+}
+
+function Mutate(string MutateString, PlayerPawn Sender)
+{
+	if (MutateString ~= "RainbowBlue")
+	{
+		SetGlobalRainbowTestMode(Sender, 1, "blue", "Home");
+		return;
+	}
+
+	if (MutateString ~= "RainbowGreen")
+	{
+		SetGlobalRainbowTestMode(Sender, 2, "green", "Insert");
+		return;
+	}
+
+	if (MutateString ~= "RainbowGold")
+	{
+		SetGlobalRainbowTestMode(Sender, 3, "gold", "Page Up");
+		return;
+	}
+
+	if (MutateString ~= "RainbowGrey")
+	{
+		SetGlobalRainbowTestMode(Sender, 4, "grey", "Scroll Lock");
+		return;
+	}
+
+	if (MutateString ~= "RainbowPurple")
+	{
+		SetGlobalRainbowTestMode(Sender, 5, "purple", "Comma");
+		return;
+	}
+
+	if (MutateString ~= "RainbowTeleport")
+	{
+		SetGlobalRainbowTestMode(Sender, 7, "teleport", "F7");
+		return;
+	}
+
+	if (MutateString ~= "RainbowLava")
+	{
+		SetGlobalRainbowTestMode(Sender, 6, "lava", "F8");
+		return;
+	}
+
+	if (MutateString ~= "RainbowBlackHole")
+	{
+		SetGlobalRainbowTestMode(Sender, 8, "black hole", "Period");
+		return;
+	}
+
+	if (MutateString ~= "RainbowRedeemer")
+	{
+		SetGlobalRainbowTestMode(Sender, 9, "Redeemer", "E");
+		return;
+	}
+
+	if (NextMutator != None)
+		NextMutator.Mutate(MutateString, Sender);
 }
 
 function bool PlayerHasRainbowLauncher(PlayerReplicationInfo PRI)

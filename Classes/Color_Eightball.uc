@@ -142,12 +142,42 @@ var Actor LockedTarget, NewTarget, OldTarget;
 var() globalconfig bool bRedeemer;
 var() globalconfig bool bRandomizeLoadedRockets;
 var() globalconfig bool bLogRainbowKillMessages;
+// Shared, runtime-only test selection.  Zero retains normal random fire.
+// Mutators change the class default, so every launcher (including bots') reads
+// the same selection at the moment it fires.
+var int GlobalTestProjectileMode;
+
+const TESTMODE_Random   = 0;
+const TESTMODE_Blue      = 1;
+const TESTMODE_Green     = 2;
+const TESTMODE_Gold      = 3;
+const TESTMODE_Grey      = 4;
+const TESTMODE_Purple    = 5;
+const TESTMODE_Lava      = 6;
+const TESTMODE_Teleport  = 7;
+const TESTMODE_BlackHole = 8;
+const TESTMODE_Redeemer  = 9;
 
 
 replication
 {
 	reliable if ( bNetOwner && (Role == ROLE_Authority) )
 		bInstantRocket;
+}
+
+static function int ToggleGlobalTestProjectileMode(int RequestedMode)
+{
+	if (default.GlobalTestProjectileMode == RequestedMode)
+		default.GlobalTestProjectileMode = TESTMODE_Random;
+	else
+		default.GlobalTestProjectileMode = RequestedMode;
+
+	return default.GlobalTestProjectileMode;
+}
+
+static function ResetGlobalTestProjectileMode()
+{
+	default.GlobalTestProjectileMode = TESTMODE_Random;
 }
 
 function setHand(float Hand)
@@ -897,6 +927,19 @@ state FireRockets
 	function class<Projectile> PickRainbowProjectile()
 	{
 		local int Choice;
+
+		switch (default.GlobalTestProjectileMode)
+		{
+			case TESTMODE_Blue:      return class'Rainbow.BlueProj';
+			case TESTMODE_Green:     return class'Rainbow.GreenProj';
+			case TESTMODE_Gold:      return class'Rainbow.GoldProj';
+			case TESTMODE_Grey:      return class'Rainbow.GreyProj';
+			case TESTMODE_Purple:    return class'Rainbow.PurpleProj';
+			case TESTMODE_Lava:      return class'Rainbow.LavaProj';
+			case TESTMODE_Teleport:  return class'Rainbow.RandomTeleportProj';
+			case TESTMODE_BlackHole: return class'Rainbow.BlackHoleProj';
+			case TESTMODE_Redeemer:  return class'Rainbow.RedProj';
+		}
 
 		if ( bRedeemer )
 			Choice = Rand(9);

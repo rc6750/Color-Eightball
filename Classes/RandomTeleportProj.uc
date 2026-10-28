@@ -55,6 +55,7 @@ simulated function Explode(vector HitLocation, vector HitNormal)
 {
 	local Pawn P;
 	local Greyteleeffect s;
+	local TeleportRadiusEffect RadiusEffect;
 
 
 	if (Role != ROLE_Authority)
@@ -63,6 +64,11 @@ simulated function Explode(vector HitLocation, vector HitNormal)
 	// Radius mode: chaos teleport everyone near the impact
 	if (TeleportRadius > 0)
 	{
+		// The ring is cosmetic, but it uses this exact same radius as RadiusActors.
+		RadiusEffect = Spawn(class'Rainbow.TeleportRadiusEffect',,, HitLocation + vect(0,0,4));
+		if (RadiusEffect != None)
+			RadiusEffect.InitRadius(TeleportRadius);
+
 		foreach RadiusActors(class'Pawn', P, TeleportRadius, HitLocation)
 		{
 			if (P != None && P.Health > 0 && !P.bDeleteMe)
