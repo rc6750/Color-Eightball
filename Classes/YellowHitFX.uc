@@ -4,12 +4,8 @@ var int Frame;
 
 simulated function PostBeginPlay()
 {
-	if (Level.NetMode == NM_DedicatedServer)
-	{
-		Destroy();
-		return;
-	}
-
+	// Keep the actor on a dedicated server long enough to replicate its
+	// client-side animation.  Dedicated servers do not render it themselves.
 	DrawType = DT_Sprite;
 	Style = STY_Translucent;
 	bUnlit = True;

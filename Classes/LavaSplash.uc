@@ -26,6 +26,7 @@ simulated function PostBeginPlay()
 function Timer()
 {
 	local LavaPuff f;
+	local LavaMeltEffect MeltEffect;
 	local Pawn P;
 	local float Radius;
 	local Pawn HitPawn[32];
@@ -55,9 +56,62 @@ function Timer()
 
 	for (i = 0; i < HitCount; i++)
 		if (HitPawn[i] != None && HitHealth[i] > 0 && HitPawn[i].Health <= 0)
+		{
 			class'Rainbow.RainbowKillMessageHelper'.static.Send(Instigator, HitPawn[i], 6, 'LavaSplash');
 
+			// Replace only confirmed lethal lava deaths. Surviving victims keep
+			// their normal knockback and gameplay behavior.
+			MeltEffect = Spawn(class'Rainbow.LavaMeltEffect', HitPawn[i],, HitPawn[i].Location, HitPawn[i].Rotation);
+			if (MeltEffect != None)
+				MeltEffect.CopyAppearanceFrom(HitPawn[i]);
+			HitPawn[i].Velocity = vect(0,0,0);
+			HitPawn[i].Acceleration = vect(0,0,0);
+			HitPawn[i].HidePlayer();
+			StabilizeLavaDeathCarcass(HitPawn[i]);
+		}
+
 	Destroy();	
+}
+
+function StabilizeLavaDeathCarcass(Pawn Victim)
+{
+	local Actor A;
+	local int StabilizedCount;
+
+	if (Victim == None)
+		return;
+
+	// A normal UT death has already spawned a separate Carcass actor by this
+	// point. The local death camera may still follow it, so keep it alive as an
+	// invisible, stationary camera anchor instead of destroying it.
+	foreach RadiusActors(class'Actor', A, 96, Victim.Location)
+		if (A != None && A.IsA('Carcass') && (A.Owner == Victim || A.Instigator == Victim))
+		{
+			HideAndFreezeCarcass(A);
+			StabilizedCount++;
+		}
+
+	// Stock carcasses do not consistently retain an Owner across player types.
+	// The fallback is deliberately tight and runs immediately after this death.
+	if (StabilizedCount == 0)
+		foreach RadiusActors(class'Actor', A, 48, Victim.Location)
+			if (A != None && A.IsA('Carcass'))
+				HideAndFreezeCarcass(A);
+}
+
+function HideAndFreezeCarcass(Actor CarcassActor)
+{
+	if (CarcassActor == None)
+		return;
+
+	CarcassActor.Velocity = vect(0,0,0);
+	CarcassActor.Acceleration = vect(0,0,0);
+	CarcassActor.SetPhysics(PHYS_None);
+	CarcassActor.SetCollision(false, false, false);
+	CarcassActor.bCollideWorld = false;
+	CarcassActor.bBlockActors = false;
+	CarcassActor.bBlockPlayers = false;
+	CarcassActor.bHidden = true;
 }
 
 simulated function SetWall(vector HitNormal, Actor Wall)

@@ -44,7 +44,8 @@ function Explode(vector HitLocation, vector HitNormal)
 			return;		
 
 	s = spawn(class'Rainbow.YellowHitFX',,,HitLocation + HitNormal*16);	
- 	s.RemoteRole = ROLE_SimulatedProxy;	
+	if (s != None)
+		s.RemoteRole = ROLE_SimulatedProxy;
 
 	Destroy();
 }
