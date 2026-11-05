@@ -70,7 +70,7 @@ simulated function Explode(vector HitLocation, vector HitNormal)
 
 		foreach RadiusActors(class'Pawn', P, TeleportRadius, HitLocation)
 		{
-			if (P != None && P.Health > 0 && !P.bDeleteMe)
+			if (P != None && P.Health > 0 && !P.bDeleteMe && !P.IsA('Spectator'))  // never teleport spectators (2026-11-05)
 				TeleportPawnRandom(P);
 		}
 	}
@@ -79,7 +79,7 @@ simulated function Explode(vector HitLocation, vector HitNormal)
 		// Direct hit only: use a small radius or implement TouchPawn again
 		foreach RadiusActors(class'Pawn', P, 1, HitLocation)
 		{
-			if (P != None && P.Health > 0 && !P.bDeleteMe)
+			if (P != None && P.Health > 0 && !P.bDeleteMe && !P.IsA('Spectator'))  // never teleport spectators (2026-11-05)
 				TeleportPawnRandom(P);
 		}
 	}
