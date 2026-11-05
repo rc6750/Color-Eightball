@@ -73,7 +73,7 @@ function Timer()
 
 	foreach RadiusActors(class'Pawn', P, FieldRadius, Location)
 	{
-		if (P == None || P.Health <= 0 || P.bDeleteMe)
+		if (P == None || P.Health <= 0 || P.bDeleteMe || P.IsA('Spectator'))  // never pull spectators (2026-11-05)
 			continue;
 
 		if (PlayerPawn(P) != None && FRand() < 0.50)  // don’t spam every tick
