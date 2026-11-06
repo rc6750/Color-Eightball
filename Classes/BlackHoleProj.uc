@@ -57,8 +57,14 @@ simulated function Explode(vector HitLocation, vector HitNormal)
 		}
 	}
 
+	// A simulated client can run this too.  It has already created its local
+	// visual above, so remove the replicated projectile instead of leaving the
+	// sprite alive until its 10-second safety lifespan.
 	if (Role != ROLE_Authority)
+	{
+		Destroy();
 		return;
+	}
 
 	BH = Spawn(class'Rainbow.BlackHoleField', Instigator,,, Rotator(HitNormal));
 	if (BH != None)
