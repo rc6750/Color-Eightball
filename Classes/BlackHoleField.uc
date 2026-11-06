@@ -33,6 +33,10 @@ function InitField()
 		return;
 
 	StartTime = Level.TimeSeconds;
+	// This actor is only the gameplay anchor.  Keep its fail-safe lifetime in
+	// step with the configured field duration rather than the old 8-second
+	// default, in case a destruction update is delayed for a client.
+	LifeSpan = LifeTimeSeconds + 0.25;
 	SetTimer(0.05, true); // start pull now that radius/time are valid
 }
 
@@ -41,6 +45,10 @@ simulated function PostNetBeginPlay()
 	local BlackHoleFX FX;
 
 	Super.PostNetBeginPlay();
+
+	// LifeTimeSeconds is replicated by the server before this callback.  The
+	// client-side anchor gets the same short fail-safe timeout as the server.
+	LifeSpan = LifeTimeSeconds + 0.25;
 
 	// Clients: spawn visuals once we exist network-side
 	if (Level.NetMode != NM_DedicatedServer)
@@ -189,11 +197,9 @@ defaultproperties
 	bAlwaysRelevant=True
 	bNetTemporary=True
 
-	DrawType=DT_SpriteAnimOnce
-	Style=STY_Translucent
-	Texture=Texture'UnrealShare.SKEffect.SKJ_a00'
-	DrawScale=1.10
-	bUnlit=True
+	// BlackHoleFX is the visible black hole.  This field stays hidden so its
+	// fallback lifetime can never leave a second, projectile-like sprite behind.
+	bHidden=True
 
 	CollisionRadius=0
 	CollisionHeight=0
