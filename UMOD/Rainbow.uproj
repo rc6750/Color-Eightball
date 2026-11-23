@@ -13,7 +13,7 @@ versionURL=https://github.com/OldUnreal/UnrealTournamentPatches/releases/tag/v46
 developerURL=https://github.com/OldUnreal
 [Product]
 product=Color_Eightball
-version=107
+version=108
 developer=rc6750
 productURL=https://github.com/rc6750/Color-Eightball
 versionURL=https://github.com/rc6750/Color-Eightball
@@ -22,4 +22,4 @@ readme=Rainbow\UMOD\readme.txt
 title=Color Eightball Install
 cleanup=True
 logo=Rainbow\UMOD\bogwraithbanner.bmp
-archive=Color_Eightball_107.umod
+archive=Color_Eightball_108.umod
